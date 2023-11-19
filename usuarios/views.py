@@ -1,8 +1,40 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Usuario
+from django.shortcuts import redirect
+from hashlib import sha256
 
 def login(request):
     return HttpResponse('login')
 
 def cadastro(request):
-    return HttpResponse('cadastro')
+    status = request.GET.get('status')
+    return render(request, 'cadastro.html', {'status': status})
+
+def valida_cadastro(request):
+    nome = request.POST.get('nome')
+    senha = request.POST.get('senha')
+    email = request.POST.get('email')
+
+    usuario = Usuario.objects.filter(email = email)
+
+    if len(nome.strip()) == 0 or len(senha.strip()) == 0:
+        return redirect('/auth/cadastro/?status=1')
+
+    if not email.endswith('@ufrpe.br'):
+        return redirect('/auth/cadastro/?status=2')
+
+    if len(senha) < 6:
+        return redirect('/auth/cadastro/?status=3')
+
+    if len(usuario) > 0:
+        return redirect('/auth/cadastro/?status=4')
+
+    try:
+        senha = sha256(senha.encode()).hexdigest()
+        usuario = Usuario(nome = nome, senha = senha, email = email)
+        usuario.save()
+
+        return redirect('/auth/cadastro/?status=0')
+    except:
+        return redirect('/auth/cadastro/?status=5')
