@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from usuarios.models import Usuario
 
@@ -9,8 +9,12 @@ def home(request):
         user_id = request.session['usuario']
         usuario = Usuario.objects.get(id=user_id)
 
-        # Display a personalized greeting with the username
-        return HttpResponse(f'Oi Gestor {usuario.nome}, seja bem-vindo !')
+        # Pass the user object to the template context
+        context = {
+            'usuario': usuario,
+            'nome_usuario': usuario.nome,
+        }
+        return render(request, 'home.html', context)
 
     else:
         # Redirect to the login page if the user is not logged in
