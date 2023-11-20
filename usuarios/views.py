@@ -53,21 +53,35 @@ def valida_cadastro(request):
     except:
         return redirect('/auth/cadastro/?status=5')
     
+# def valida_login(request):
+#     email = request.POST.get('email')
+#     senha = request.POST.get('senha')
+    
+#     senha = sha256(senha.encode()).hexdigest()
+    
+#     usuario = Usuario.objects.filter(email = email).filter(senha = senha)
+    
+#     if len(usuario) == 0:
+#         return redirect('/auth/login/?status=1')    
+#     elif len(usuario)  >= 0:
+#         request.session['usuario'] = usuario[0].id
+#         return redirect(f'/gestor/home/')
+    
+#     return HttpResponse(f"{email} {senha}")
+
 def valida_login(request):
     email = request.POST.get('email')
     senha = request.POST.get('senha')
-    
     senha = sha256(senha.encode()).hexdigest()
-    
-    usuario = Usuario.objects.filter(email = email).filter(senha = senha)
-    
+    usuario = Usuario.objects.filter(email=email).filter(senha=senha)
+
     if len(usuario) == 0:
-        return redirect('/auth/login/?status=1')    
-    elif len(usuario)  >= 0:
+        return redirect('/auth/login/?status=1')
+    elif len(usuario) >= 0 and usuario[0].email == 'admin@ufrpe.br':
         request.session['usuario'] = usuario[0].id
         return redirect(f'/gestor/home/')
-    
-    return HttpResponse(f"{email} {senha}")
+    else:
+        return redirect('/admin')#adiciona aqui a url da page home do usuario professor ou servidor
 def sair(request):
     request.session.flush()
     return redirect('/auth/login/')
