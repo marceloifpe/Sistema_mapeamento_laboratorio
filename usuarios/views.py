@@ -65,12 +65,18 @@ def valida_login(request):
         return redirect('/auth/login/?status=1')    
     elif len(usuario)  >= 0:
         request.session['usuario'] = usuario[0].id
-        return redirect('/gestor/home')
+        return redirect(f'/gestor/home/')
     
     return HttpResponse(f"{email} {senha}")
+def sair(request):
+    request.session.flush()
+    return redirect('/auth/login/')
+    
 
 # def home_admin(request):
-#     return HttpResponse('Seja Bem-Vindo')        
+#     return HttpResponse('Seja Bem-Vindo')   
+
+# return redirect(f'/gestor/home/?id_usuario={request.session["usuario"]}') testa id user     
     
     
     
