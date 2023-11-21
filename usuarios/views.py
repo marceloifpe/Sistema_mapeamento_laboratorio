@@ -69,3 +69,5 @@ def valida_login(request):
         return redirect(f'/gestor/home/')
     else:
         return redirect(f'/professor/home/')
+
+
