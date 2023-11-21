@@ -68,4 +68,4 @@ def valida_login(request):
     if usuario[0].email == 'admin@ufrpe.br':
         return redirect(f'/gestor/home/')
     else:
-        return redirect(f'/professor/home/')
+        return redirect(f'/professor/homee/')

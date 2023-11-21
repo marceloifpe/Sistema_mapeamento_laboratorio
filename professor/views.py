@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from usuarios.models import Usuario
 
 @login_required(login_url='/auth/login/?status=2')
-def home(request):
+def homee(request):
     # Obtém o parâmetro 'status' da URL, se presente
     status = request.GET.get('status')
 
@@ -21,7 +21,7 @@ def home(request):
                 'usuario': usuario,
                 'nome_usuario': usuario.nome,
             }
-            return render(request, 'home.html', context)
+            return render(request, 'homee.html', context)
 
         except Usuario.DoesNotExist:
             # Se o usuário não for encontrado, faça o logout e redirecione para a página de login
