@@ -2,16 +2,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-# <<<<<<< Dev-marcelo
+    # Define uma rota para a view 'login'
     path('login/', views.login, name='login'),
-    path('cadastro/', views.cadastro, name = 'cadastro'),
+    
+    # Define uma rota para a view 'cadastro'
+    path('cadastro/', views.cadastro, name='cadastro'),
+    
+    # Define uma rota para a view 'valida_cadastro'
     path('valida_cadastro/', views.valida_cadastro, name='valida_cadastro'),
-    path('valida_login/', views.valida_login, name='valida_login'),
-    #path('home_admin/', views.home_admin, name='home_admin')
-    path('sair/', views.sair, name='sair')
-# =======
-#     path('login/', views.login, name = 'login'),
-#     path('cadastro/', views.cadastro, name = 'cadastro'),
-#     path('valida_cadastro/', views.valida_cadastro, name='valida_cadastro')
-# >>>>>>> main
+    
+    # Define uma rota para a view 'valida_login'
+    path('valida_login/', views.valida_login, name='valida_login')
 ]
