@@ -6,6 +6,9 @@ import sys
 
 def main():
     """Run administrative tasks."""
+# <<<<<<< Dev-marcelo
+#     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sismarcelo.settings')
+# =======
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema.settings')
     try:
         from django.core.management import execute_from_command_line
