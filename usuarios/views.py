@@ -5,72 +5,67 @@ from django.shortcuts import redirect
 from hashlib import sha256
 import re
 
+# Função para renderizar a página de login
 def login(request):
+    # Obtém o parâmetro 'status' da URL, se presente
     status = request.GET.get('status')
-    return render(request,'login.html', {'status': status})
+    return render(request, 'login.html', {'status': status})
 
-# def login(request):
-#     return HttpResponse('login')
-# >>>>>>> main
-
+# Função para renderizar a página de cadastro
 def cadastro(request):
+    # Obtém o parâmetro 'status' da URL, se presente
     status = request.GET.get('status')
     return render(request, 'cadastro.html', {'status': status})
 
+# Função para validar e processar o cadastro do usuário
 def valida_cadastro(request):
     nome = request.POST.get('nome')
     senha = request.POST.get('senha')
     email = request.POST.get('email')
 
-    usuario = Usuario.objects.filter(email=email)
-
+    # Verifica se o nome e a senha têm comprimentos adequados
     if len(nome.strip()) == 0 or len(senha.strip()) == 0:
         return redirect('/auth/cadastro/?status=1')
 
+    # Verifica se o email possui o domínio correto
     if not email.endswith('@ufrpe.br'):
         return redirect('/auth/cadastro/?status=2')
 
-    if len(senha) < 8:
+    # Verifica se a senha atende a critérios específicos
+    if len(senha) < 8 or not re.search(r'[a-z]', senha) or not re.search(r'[A-Z]', senha) or not re.search(r'[0-9]', senha) or not re.search(r'[!@#$%^&*(),.?":{}|<>]', senha):
         return redirect('/auth/cadastro/?status=3')
 
-    if not re.search(r'[a-z]', senha):  # Pelo menos uma letra minúscula
-        return redirect('/auth/cadastro/?status=7')
-
-    if not re.search(r'[A-Z]', senha):  # Pelo menos uma letra maiúscula
+    # Verifica se o usuário com o mesmo email já existe no banco de dados
+    usuario = Usuario.objects.filter(email=email)
+    if len(usuario) > 0:
         return redirect('/auth/cadastro/?status=8')
 
-    if not re.search(r'[0-9]', senha):  # Pelo menos um número
-        return redirect('/auth/cadastro/?status=10')
-
-    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', senha):  # Pelo menos um caractere especial
-        return redirect('/auth/cadastro/?status=9')
-
-    if len(usuario) > 0:
-        return redirect('/auth/cadastro/?status=4')
-
     try:
+        # Criptografa a senha antes de salvar no banco de dados
         senha = sha256(senha.encode()).hexdigest()
         usuario = Usuario(nome=nome, senha=senha, email=email)
         usuario.save()
-
         return redirect('/auth/cadastro/?status=0')
-    except:
-        return redirect('/auth/cadastro/?status=5')
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        return redirect('/auth/cadastro/?status=9')
 
+# Função para validar o login do usuário
 def valida_login(request):
     email = request.POST.get('email')
     senha = request.POST.get('senha')
     senha = sha256(senha.encode()).hexdigest()
     usuario = Usuario.objects.filter(email=email).filter(senha=senha)
 
+    # Verifica se o usuário existe e redireciona para a página correta
     if len(usuario) == 0:
         return redirect('/auth/login/?status=1')
-    elif len(usuario) >= 0 and usuario[0].email == 'admin@ufrpe.br':
+    else:
+        # Armazena o ID do usuário na sessão
         request.session['usuario'] = usuario[0].id
+
+    # Redireciona para a página de admin ou professor com base no email
+    if usuario[0].email == 'admin@ufrpe.br':
         return redirect(f'/gestor/home/')
     else:
-        return redirect('/admin')  # adiciona aqui a url da page home do usuario professor ou servidor
-
-def sair(request):
-    request.session.flush()
-    return redirect('/auth/login/')
+        return redirect(f'/professor/home/')

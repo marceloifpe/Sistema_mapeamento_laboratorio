@@ -24,23 +24,26 @@
     </div>
     {% endif %}
 
-    {% if status == '3' %}
-    <div class="alert alert-danger" role="alert">
-        Sua senha deve ter no mínimo de 8 caracteres considerando: letras maiúsculas e minúsculas, números e caracteres especiais!
-    </div>
+    {% with status_list='3 4 5 6 7' %}
+    {% if status in status_list.split %}
+        <div class="alert alert-danger" role="alert">
+            Sua senha deve ter no mínimo 8 caracteres considerando: letras maiúsculas e minúsculas, números e caracteres especiais!
+        </div>
     {% endif %}
+    {% endwith %}
 
-    {% if status == '4' %}
+    {% if status == '8' %}
     <div class="alert alert-danger" role="alert">
         Usuário já existente no sistema!
     </div>
     {% endif %}
 
-    {% if status == '5' %}
+    {% if status == '9' %}
     <div class="alert alert-danger" role="alert">
         Erro no sistema!
     </div>
     {% endif %}
+
     <div class="row">
         <div class="col-md-3">
 
