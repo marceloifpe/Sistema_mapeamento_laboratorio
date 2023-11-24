@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from usuarios.models import Usuario
+from salas.models import Salas
 
 @login_required(login_url='/auth/login/?status=2')
 def home(request):
@@ -30,3 +31,4 @@ def home(request):
 
     # Se 'usuario' não estiver na sessão, algo está errado, faça o logout e redirecione para a página de login
     return redirect('/auth/login/?status=2')
+

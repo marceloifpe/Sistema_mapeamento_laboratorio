@@ -70,6 +70,7 @@ def valida_login(request):
     else:
         return redirect(f'/professor/homee/')
 
+
 def sair(request):
     request.session.flush()
     return redirect('/auth/login/')

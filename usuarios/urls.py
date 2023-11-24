@@ -12,5 +12,9 @@ urlpatterns = [
     path('valida_cadastro/', views.valida_cadastro, name='valida_cadastro'),
     
     # Define uma rota para a view 'valida_login'
-    path('valida_login/', views.valida_login, name='valida_login')
+    path('valida_login/', views.valida_login, name='valida_login'),
+
+    
+
+    
 ]

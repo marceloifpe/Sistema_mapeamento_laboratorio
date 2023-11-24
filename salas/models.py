@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date
 
+from usuarios.models import Usuario
+
 
 class Salas(models.Model):
 
@@ -18,6 +20,7 @@ class Salas(models.Model):
     data_reserva = models.DateTimeField()
     data_devolucao = models.DateTimeField()
     data_solicitacao = models.DateField(default = date.today)
+    usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     
     class Meta:
         verbose_name = 'Sala'
