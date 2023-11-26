@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from usuarios.models import Usuario
 
 from salas.models import Salas
+from salas.models import Reservas
 # @login_required(login_url='/auth/login/?status=2')
 # def homee(request):
 #     # Obtém o parâmetro 'status' da URL, se presente
@@ -47,3 +48,13 @@ def homee(request):
 
     else:
         return redirect('/auth/login/?status = 2')
+
+def ver_salas(request, id):
+    if request.session.get('usuario'):
+        salas = Salas.objects.get(id=id)
+        if request.session.get('usuario') == salas.usuarios.id:
+            return render(request, 'ver_salas.html', {'salas': salas})
+        else:
+           return HttpResponse(' essa sala nao e tua bandidinho')
+
+    return redirect('/auth/login/?status = 2')
