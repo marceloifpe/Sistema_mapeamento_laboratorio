@@ -44,7 +44,7 @@ def homee(request):
         usuario = Usuario.objects.get(id = request.session['usuario'])
 
         salas = Salas.objects.filter(usuarios=usuario )
-        return render(request, 'homee.html', {'salas': salas})
+        return render(request, 'homee.html', {'salas': salas, 'Reservas': Reservas})
 
     else:
         return redirect('/auth/login/?status = 2')
@@ -52,8 +52,8 @@ def homee(request):
 def ver_salas(request, id):
     if request.session.get('usuario'):
         salas = Salas.objects.get(id=id)
-        if request.session.get('usuario') == salas.usuarios.id:
-            return render(request, 'ver_salas.html', {'salas': salas})
+        if request.session.get('usuario') == salas.usuarios_id:
+            return render(request, 'ver_salas.html', {'Salas': salas, 'Reservas': Reservas})
         else:
            return HttpResponse(' essa sala nao e tua bandidinho')
 
