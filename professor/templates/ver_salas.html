@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+
+
+{% block 'conteudo' %}
+
+        <div  class="container">
+            <h1>Sala: <h4>{{Salas.nome_da_sala}}</h4>
+             
+              <h1>Data da reserva: </h1><h4>{{Reservas.data_reserva}}</h4>
+               <h1>Data da devolução:</h1> <h4>{{Reservas.quem_reservou}}</h4>
+                <h1>Data da solicitação:</h1> <h4>{{salas.data_solicitacao}}</h4>
+                <h1>Data da solicitação:</h1> <h4>{{Reservas.data_solicitacao}}</h4>
+            <br>
+          
+
+            <hr>
+            <h2>Historico de reserva</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Data da reserva</th>
+                    <th scope="col">Data da devolução</th>
+                    <th scope="col">Data da solicitação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+        </div>   
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
