@@ -40,21 +40,35 @@ from salas.models import Reservas
 
 
 def homee(request):
+    # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
-        usuario = Usuario.objects.get(id = request.session['usuario'])
+        # Obtém o objeto de usuário com base no ID armazenado na sessão
+        usuario = Usuario.objects.get(id=request.session['usuario'])
 
-        salas = Salas.objects.filter(usuarios=usuario )
+        # Obtém as salas associadas a esse usuário
+        salas = Salas.objects.filter(usuarios=usuario)
+
+        # Renderiza a página inicial com as salas e informações de reservas
         return render(request, 'homee.html', {'salas': salas, 'Reservas': Reservas})
 
     else:
-        return redirect('/auth/login/?status = 2')
+        # Redireciona para a página de login se não houver usuário na sessão
+        return redirect('/auth/login/?status=2')
 
+# Função para visualizar detalhes de uma sala específica
 def ver_salas(request, id):
+    # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
+        # Obtém o objeto de sala com base no ID fornecido
         salas = Salas.objects.get(id=id)
+
+        # Verifica se o usuário na sessão é o mesmo que o usuário associado à sala
         if request.session.get('usuario') == salas.usuarios_id:
+            # Renderiza a página de detalhes da sala com informações de reservas
             return render(request, 'ver_salas.html', {'Salas': salas, 'Reservas': Reservas})
         else:
-           return HttpResponse(' essa sala nao e tua bandidinho')
+            # Retorna uma resposta indicando que a sala não pertence ao usuário atual
+            return HttpResponse('Essa sala não é sua, bandidinho')
 
-    return redirect('/auth/login/?status = 2')
+    # Redireciona para a página de login se não houver usuário na sessão
+    return redirect('/auth/login/?status=2')
