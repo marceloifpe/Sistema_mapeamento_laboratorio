@@ -1,65 +1,47 @@
 {% extends 'base.html' %}
 
-
-
 {% block 'conteudo' %}
 
-        <div  class="container">
-            <h1>Sala: <h4>{{Salas.nome_da_sala}}</h4>
-             
-              <h1>Data da reserva: </h1><h4>{{Reservas.data_reserva}}</h4>
-               <h1>Data da devolução:</h1> <h4>{{Reservas.quem_reservou}}</h4>
-                <h1>Data da solicitação:</h1> <h4>{{salas.data_solicitacao}}</h4>
-                <h1>Data da solicitação:</h1> <h4>{{Reservas.data_solicitacao}}</h4>
-            <br>
-          
+<div class="container">
+    <!-- Título da Sala -->
+    <h1>Sala: <h4>{{Salas.nome_da_sala}}</h4>
 
-            <hr>
-            <h2>Historico de reserva</h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Data da reserva</th>
-                    <th scope="col">Data da devolução</th>
-                    <th scope="col">Data da solicitação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-
-        </div>   
+        {% for reserva in Reservas %}
+        <!-- <li>{{ reserva.data_reserva }} - {{ reserva.quem_reservou }}</li> -->
 
 
+    <!-- Informações sobre a Reserva -->
+    <h1>Data da reserva:</h1><h4>{{reserva.data_reserva}}</h4>
+    <h1>Solicitante:</h1> <h4>{{reserva.usuarios}}</h4>
+    <h1>Data da Devolução:</h1> <h4>{{reserva.data_devolucao}}</h4>
+    <h1>Data da solicitação:</h1> <h4>{{reserva.data_solicitacao}}</h4>
+    <br>
+    {% endfor %}
 
+    <hr>
 
+    <!-- Histórico de Reservas -->
+    <h2>Historico de reserva</h2>
 
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data da reserva</th>
+                <th scope="col">Data da devolução</th>
+                <th scope="col">Data da solicitação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <!-- Aqui você precisará iterar sobre as reservas associadas à sala e exibi-las na tabela -->
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

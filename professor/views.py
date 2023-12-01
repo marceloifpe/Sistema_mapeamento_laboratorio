@@ -53,8 +53,10 @@ def ver_salas(request, id):
     if request.session.get('usuario'):
         salas = Salas.objects.get(id=id)
         if request.session.get('usuario') == salas.usuarios_id:
-            return render(request, 'ver_salas.html', {'Salas': salas, 'Reservas': Reservas})
+            reservas = Reservas.objects.filter(salas=salas)
+            return render(request, 'ver_salas.html', {'Salas': salas, 'Reservas': reservas})
         else:
            return HttpResponse(' essa sala nao e tua bandidinho')
 
     return redirect('/auth/login/?status = 2')
+
