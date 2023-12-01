@@ -3,32 +3,56 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from usuarios.models import Usuario
 from salas.models import Salas
+from salas.models import Reservas
 
-@login_required(login_url='/auth/login/?status=2')
+
 def home(request):
-    # Obtém o parâmetro 'status' da URL, se presente
-    status = request.GET.get('status')
-
-    # Verifica se a sessão possui o usuário
-    if 'usuario' in request.session:
-        user_id = request.session['usuario']
-
-        # Tenta recuperar o usuário do banco de dados
+    # Verifica se há um usuário na sessão
+    if request.session.get('usuario'):
         try:
-            usuario = Usuario.objects.get(id=user_id)
+            # Tenta obter o objeto de usuário com base no ID armazenado na sessão
+            usuario = Usuario.objects.get(id=request.session['usuario'])
 
-            # Passa o objeto de usuário para o contexto do template
+            # Cria um contexto para ser passado para o template
             context = {
-                'usuario': usuario,
-                'nome_usuario': usuario.nome,
+                'usuario': usuario,          # Objeto de usuário
+                'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
+                'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
             }
+
+     ##Renderiza o template 'home.html' com o contexto
             return render(request, 'home.html', context)
 
         except Usuario.DoesNotExist:
-            # Se o usuário não for encontrado, faça o logout e redirecione para a página de login
-            del request.session['usuario']
-            return redirect('/auth/login/?status=2')
+            # Trata o caso em que o usuário não existe
+            return render(request, 'error.html', {'message': 'Usuário não existe'})
 
-    # Se 'usuario' não estiver na sessão, algo está errado, faça o logout e redirecione para a página de login
-    return redirect('/auth/login/?status=2')
+    else:
+        # Redireciona para a página de login se não houver usuário na sessão
+        return redirect('/auth/login/?status=2')
 
+
+def gestor_ver_salas(request):
+    # Verifica se há um usuário na sessão
+    if request.session.get('usuario'):
+        try:
+            # Tenta obter o objeto de usuário com base no ID armazenado na sessão
+            usuario = Usuario.objects.get(id=request.session['usuario'])
+
+            # Cria um contexto para ser passado para o template
+            context = {
+                'usuario': usuario,          # Objeto de usuário
+                'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
+                'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
+            }
+
+     ##Renderiza o template 'home.html' com o contexto
+            return render(request, 'gestor_ver_salas.html', context)
+
+        except Usuario.DoesNotExist:
+            # Trata o caso em que o usuário não existe
+            return render(request, 'error.html', {'message': 'Usuário não existe'})
+
+    else:
+        # Redireciona para a página de login se não houver usuário na sessão
+        return redirect('/auth/login/?status=2')

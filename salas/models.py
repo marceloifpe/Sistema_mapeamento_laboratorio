@@ -20,7 +20,7 @@ class Salas(models.Model):
     nome_da_sala = models.CharField(max_length = 30)
     local = models.CharField(max_length = 4, choices = LOCAL_CHOICES, default = UABJ)
     reservado = models.BooleanField(default = False)
-    usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
+    
     
     class Meta:
         verbose_name = 'Sala'
@@ -29,7 +29,7 @@ class Salas(models.Model):
         return self.nome_da_sala
 
 class Reservas(models.Model):
-    quem_reservou = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
+    usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     data_reserva = models.DateField()
     data_devolucao = models.DateField()
     data_solicitacao = models.DateField(default = date.today)
@@ -39,7 +39,7 @@ class Reservas(models.Model):
         verbose_name = 'Reserva'
     
     def __str__(self) -> str:
-        return f"{self.quem_reservou} | {self.salas}"
+        return f"{self.usuarios} | {self.salas}"
     
 
     
