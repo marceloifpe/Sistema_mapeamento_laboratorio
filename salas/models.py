@@ -34,7 +34,7 @@ class Reservas(models.Model):
     data_devolucao = models.DateField()
     data_solicitacao = models.DateField(default = date.today)
     salas = models.ForeignKey(Salas, on_delete=models.DO_NOTHING)
-
+    
     class Meta:
         verbose_name = 'Reserva'
     
