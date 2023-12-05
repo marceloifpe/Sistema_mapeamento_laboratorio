@@ -33,12 +33,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
+            {% for i in Reservas %}
+                <tr>
+                    <th scope="row">{{i.usuarios}}</th>
+                    <td>{{i.data_reserva}}</td>
+                    <td>{{i.data_devolucao}}</td>
+                    <td>{{i.data_solicitacao}}</td>
+                </tr>
+            {% endfor %}
             <!-- Aqui você precisará iterar sobre as reservas associadas à sala e exibi-las na tabela -->
         </tbody>
     </table>
