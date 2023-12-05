@@ -115,21 +115,20 @@ def ver_salas_professor(request, id):
         # Obtém o ID do usuário na sessão
         usuario_id = request.session.get('usuario')
 
-        # Verifica se o usuário na sessão é o mesmo que o usuário associado à reserva
-        # (Nota: Parece que há um erro aqui, pois Reservas.usuarios_id não é definido neste contexto)
-        if request.session.get('usuario') == Reservas.usuarios_id:
-            # Obtém as reservas associadas ao usuário
-            # (Nota: Parece que há um erro aqui, pois 'usuario' e 'salas' não são definidos neste contexto)
-            reservas = Reservas.objects.filter( usuarios_id=usuarios_id, reservas_id=usuarios_id)
+        # Obtém todas as reservas associadas ao usuário logado e ao ID fornecido
+        reservas = Reservas.objects.filter(usuarios_id=usuario_id, id=id)
 
-            # Renderiza a página 'ver_salas_professor.html', passando as informações da sala e das reservas
-            return render(request, 'ver_salas_professor.html', {'Salas': salas, 'Reservas': reservas})
+        # Verifica se há pelo menos uma reserva pertencente ao usuário logado
+        if len(reservas) > 0:
+            # Renderiza a página 'ver_salas_professor.html', passando as informações das reservas
+            return render(request, 'ver_salas_professor.html', {'Reservas': reservas})
         else:
-            # Se o usuário na sessão não for o mesmo que o usuário associado à sala, retorna uma mensagem de erro
-            return HttpResponse('Essa sala não é sua, bandidinho')
+            # Se não houver reservas para o usuário logado, retorna uma mensagem de erro
+            return HttpResponse('Não há reservas para o usuário logado.')
 
     # Se não houver usuário na sessão, redireciona para a página de login
     return redirect('/auth/login/?status=2')
+
 
 
 
