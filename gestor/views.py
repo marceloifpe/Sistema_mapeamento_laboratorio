@@ -22,7 +22,7 @@ def home(request):
 
      ##Renderiza o template 'home.html' com o contexto
             return render(request, 'home.html', context)
-
+        
         except Usuario.DoesNotExist:
             # Trata o caso em que o usuário não existe
             return render(request, 'error.html', {'message': 'Usuário não existe'})
