@@ -22,34 +22,27 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Reservas de salas</h5>
+                    <h5 class="card-title">Salas e reservas</h5>
                     <p class="card-text">Aqui você pode reservar salas para suas aulas, reuniões ou outros eventos.</p>
-                    <a href="/reservas/salas/" class="btn btn-primary">Ver Reservas</a>
+                    <a href="{% url 'gestor_ver_salas' %}" class="btn btn-primary">Ver salas e reservas</a>
                 </div>
+            
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Reservas de materiais</h5>
+                    <h5 class="card-title">Materiais e reservas</h5>
                     <p class="card-text">Aqui você pode reservar materiais para suas aulas ou pesquisas.</p>
-                    <a href="/reservas/materiais/" class="btn btn-primary">Ver Reservas</a>
+                    {% comment %} <a href="{% url '' %}" class="btn btn-primary">Ver materiais e reservas</a> {% endcomment %}
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Notificações</h5>
-                    <p class="card-text">Aqui você pode visualizar suas notificações sobre reservas ou outros eventos.</p>
-                    <a href="/notificacoes/" class="btn btn-primary">Ver Notificações</a>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <br>
     <div class="float-right">
-        <a href="{% url 'login' %}" class="btn btn-sm btn-danger">Sair</a>
+        <a href="{% url 'sair' %}" class="btn btn-danger">Sair</a>
     </div>
 
 </div>
