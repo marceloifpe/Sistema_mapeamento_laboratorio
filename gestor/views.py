@@ -5,7 +5,7 @@ from usuarios.models import Usuario
 from salas.models import Salas
 from salas.models import Reservas
 
-
+# Função para a página inicial
 def home(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -20,7 +20,7 @@ def home(request):
                 'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
             }
 
-     ##Renderiza o template 'home.html' com o contexto
+            # Renderiza o template 'home.html' com o contexto
             return render(request, 'home.html', context)
         
         except Usuario.DoesNotExist:
@@ -32,6 +32,7 @@ def home(request):
         return redirect('/auth/login/?status=2')
 
 
+# Função para a página de um gestor ver salas
 def gestor_ver_salas(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -46,7 +47,7 @@ def gestor_ver_salas(request):
                 'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
             }
 
-     ##Renderiza o template 'home.html' com o contexto
+            # Renderiza o template 'gestor_ver_salas.html' com o contexto
             return render(request, 'gestor_ver_salas.html', context)
 
         except Usuario.DoesNotExist:
