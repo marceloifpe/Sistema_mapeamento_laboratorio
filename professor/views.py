@@ -3,12 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from usuarios.models import Usuario
-
 from salas.models import Salas
 from salas.models import Reservas
 from .forms import RealizarReservas
 
-
+# Função para a página inicial
 def homee(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -18,8 +17,10 @@ def homee(request):
         # Obtém as reservas associadas a esse usuário
         reservas = Reservas.objects.filter(usuarios=usuario)
 
+        # Cria um formulário de reserva
         form = RealizarReservas()
         form.fields['usuarios'].initial = request.session['usuario']
+
         # Renderiza a página inicial com as informações de reservas
         return render(request, 'homee.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
 
@@ -28,55 +29,35 @@ def homee(request):
         return redirect('/auth/login/?status=2')
 
 
-
-
-
+# Função para visualizar salas de um professor
 def ver_salas_professor(request, id):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
         # Obtém o ID do usuário na sessão
         usuario_id = request.session.get('usuario')
 
-
         # Obtém todas as reservas associadas ao usuário logado e ao ID fornecido
         reservas = Reservas.objects.filter(usuarios_id=usuario_id, id=id)
         form = RealizarReservas()
-        
-        # Obtém todas as reservas associadas ao usuário logado e ao ID fornecido
-        # reservas = Reservas.objects.filter(usuarios_id=usuario_id, id=id,)
-
 
         # Verifica se há pelo menos uma reserva pertencente ao usuário logado
         if len(reservas) > 0:
             # Renderiza a página 'ver_salas_professor.html', passando as informações das reservas
-
-            return render(request, 'ver_salas_professor.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
-            reserva = Reservas.objects.filter(id = id)
-            print(reservas)
+            reserva = Reservas.objects.filter(id=id)
             return render(request, 'ver_salas_professor.html', {'Reservas': reserva, 'Salas': Salas, 'usuario_logado': request.session.get('usuario'), 'form': form})
-            
- 
         else:
             # Se não houver reservas para o usuário logado, retorna uma mensagem de erro
             return HttpResponse('Não há reservas para o usuário logado.')
 
     # Se não houver usuário na sessão, redireciona para a página de login
-    return redirect('/auth/login/?status=2') 
+    return redirect('/auth/login/?status=2')
 
-
-
-
-
-# def realizar_reserva(request):
-#     return HttpResponse('tela de realizar reserva')
-
-
-
+# Função para realizar reservas de salas
 def realizar_reserva_salas(request):
     if request.method =='POST':
-        form = RealizarReservas (request.POST)
+        form = RealizarReservas(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse(request.POST)
         else:
-            return HttpResponse('dados invalidos')
+            return HttpResponse('dados inválidos')
