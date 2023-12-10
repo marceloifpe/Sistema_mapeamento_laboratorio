@@ -1,3 +1,4 @@
+# Importando as bibliotecas necessárias
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -5,7 +6,7 @@ from usuarios.models import Usuario
 from salas.models import Salas
 from salas.models import Reservas
 
-# Função para a página inicial
+# Função para renderizar a página inicial
 def home(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -17,7 +18,7 @@ def home(request):
             context = {
                 'usuario': usuario,          # Objeto de usuário
                 'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
-                'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
+                'salas': Salas.objects.all()   # Obtém todas as instâncias do modelo Salas
             }
 
             # Renderiza o template 'home.html' com o contexto
@@ -31,8 +32,7 @@ def home(request):
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
 
-
-# Função para a página de um gestor ver salas
+# Função para o gestor visualizar as salas
 def gestor_ver_salas(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -44,7 +44,7 @@ def gestor_ver_salas(request):
             context = {
                 'usuario': usuario,          # Objeto de usuário
                 'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
-                'salas': Salas.objects.all   # Obtém todas as instâncias do modelo Salas
+                'salas': Salas.objects.all()   # Obtém todas as instâncias do modelo Salas
             }
 
             # Renderiza o template 'gestor_ver_salas.html' com o contexto

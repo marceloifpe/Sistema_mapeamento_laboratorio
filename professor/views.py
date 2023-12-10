@@ -1,3 +1,4 @@
+# Importando as bibliotecas necessárias
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -7,7 +8,7 @@ from salas.models import Salas
 from salas.models import Reservas
 from .forms import RealizarReservas
 
-# Função para a página inicial
+# Função para renderizar a página inicial
 def homee(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -17,7 +18,6 @@ def homee(request):
         # Obtém as reservas associadas a esse usuário
         reservas = Reservas.objects.filter(usuarios=usuario)
 
-        # Cria um formulário de reserva
         form = RealizarReservas()
         form.fields['usuarios'].initial = request.session['usuario']
 
@@ -28,8 +28,7 @@ def homee(request):
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
 
-
-# Função para visualizar salas de um professor
+# Função para o professor visualizar as salas
 def ver_salas_professor(request, id):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -43,16 +42,17 @@ def ver_salas_professor(request, id):
         # Verifica se há pelo menos uma reserva pertencente ao usuário logado
         if len(reservas) > 0:
             # Renderiza a página 'ver_salas_professor.html', passando as informações das reservas
-            reserva = Reservas.objects.filter(id=id)
-            return render(request, 'ver_salas_professor.html', {'Reservas': reserva, 'Salas': Salas, 'usuario_logado': request.session.get('usuario'), 'form': form})
+            return render(request, 'ver_salas_professor.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
+
         else:
             # Se não houver reservas para o usuário logado, retorna uma mensagem de erro
             return HttpResponse('Não há reservas para o usuário logado.')
 
-    # Se não houver usuário na sessão, redireciona para a página de login
-    return redirect('/auth/login/?status=2')
+    else:
+        # Se não houver usuário na sessão, redireciona para a página de login
+        return redirect('/auth/login/?status=2')
 
-# Função para realizar reservas de salas
+# Função para realizar a reserva de salas
 def realizar_reserva_salas(request):
     if request.method =='POST':
         form = RealizarReservas(request.POST)
@@ -60,4 +60,4 @@ def realizar_reserva_salas(request):
             form.save()
             return HttpResponse(request.POST)
         else:
-            return HttpResponse('dados inválidos')
+            return HttpResponse('dados invalidos')
