@@ -1,6 +1,7 @@
 
- <!doctype html>
+<!doctype html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,12 +11,14 @@
     <title>{% block 'titulo' %} {% endblock %}</title>
     {% load static %}
 </head>
+
 <body>
-    
+
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="{% static 'img/ufrpe.png' %}" width="100" height="100" class="d-inline-block align-top" alt="">
+                <img src="{% static 'img/ufrpe.png' %}" width="100" height="100" class="d-inline-block align-top"
+                    alt="">
                 <span class="ms-2">UFRPE - Unidade Acadêmica de Belo Jardim</span>
             </a>
             {% if usuario_logado %}
@@ -37,7 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     {% if usuario_logado %}
-    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -48,24 +50,35 @@
 
                 <div class="modal-body">
 
-                    <button style="margin-left: 100px"; onclick="mostrar_form(1)" class="btn btn-info"> Salas </button>
-                    <button style="margin-left: 100px"; onclick="mostrar_form(2)" class="btn btn-warning"> Materiais </button>
+                    <button style="margin-left: 100px" ; onclick="mostrar_form(1)" class="btn btn-info"> Salas </button>
+                    <button style="margin-left: 100px" ; onclick="mostrar_form(2)" class="btn btn-warning"> Materiais </button>
 
-                        <br>
-                        <hr>
+                    <br>
+                    <hr>
 
-                        <div style="display: none;" id="reservar_salas">
-                            <form action="{%url 'professor:realizar_reserva_salas' %}" method="POST">{% csrf_token %}
+                    <div style="display: none;" id="reservar_salas">
+                        <form action="{%url 'professor:realizar_reserva_salas' %}" method="POST">{% csrf_token %}
 
-                                <table>
+                            <table>
                                 {{form.as_table}}
-                                </table>
-                                <br>
-                                <input type="submit" class="btn btn-success" value="reservar sala">
-                            </form>
-                        </div>
+                            </table>
+                            <br>
+                            <input type="submit" class="btn btn-success" value="Reservar Sala">
+                        </form>
+                    </div>
+
+                    <div style="display: none;" id="reservar_materiais">
+                        <form action="{%url 'professor:realizar_reserva_materiais' %}" method="POST">{% csrf_token %}
+
+                            <table>
+                                {{form.as_table}}
+                            </table>
+                            <br>
+                            <input type="submit" class="btn btn-success" value="Reservar Material">
+                        </form>
+                    </div>
                 </div>
-                
+
                 <div style="display: none;" id="reservar_materiais">
                     materiais
                 </div>
@@ -75,18 +88,19 @@
     </div>
     {% endif %}
     <script>
-        function mostrar_form(v1){
+        function mostrar_form(v1) {
             reservar_salas = document.getElementById('reservar_salas')
             reservar_materiais = document.getElementById('reservar_materiais')
 
-            if(v1 == 1){
-                reservar_salas.style.display= 'block'; 
-                reservar_materiais.style.display= 'none'; 
-            } else if(v1 == 2){
-               reservar_materiais.style.display= 'block'; 
-               reservar_salas.style.display= 'none';
+            if (v1 == 1) {
+                reservar_salas.style.display = 'block';
+                reservar_materiais.style.display = 'none';
+            } else if (v1 == 2) {
+                reservar_materiais.style.display = 'block';
+                reservar_salas.style.display = 'none';
             }
         }
     </script>
 </body>
+
 </html>

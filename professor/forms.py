@@ -36,6 +36,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from salas.models import Salas, Reservas
+from materiais.models import Materiais, Reserva
 from usuarios.models import Usuario
 import datetime
 
