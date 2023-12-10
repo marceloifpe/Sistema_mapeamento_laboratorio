@@ -20,12 +20,12 @@ def homee(request):
 
         # Obtém as reservas associadas a esse usuário e as ordena pelo nome da sala
         reservas = Reservas.objects.filter(usuarios=usuario).order_by('data_solicitacao')
-
+        reserva = Reserva.objects.filter(usuarios=usuario)
         form = RealizarReservas()
         form.fields['usuarios'].initial = request.session['usuario']
 
         # Renderiza a página inicial com as informações de reservas
-        return render(request, 'homee.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
+        return render(request, 'homee.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form, 'Reserva': reserva})
 
     else:
         # Redireciona para a página de login se não houver usuário na sessão

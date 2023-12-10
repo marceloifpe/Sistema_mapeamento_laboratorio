@@ -143,7 +143,7 @@
                     <hr>
 
                     <div style="display: none;" id="reservar_salas">
-                        <form action="{%url 'realizar_reserva_salas' %}" method="POST">{% csrf_token %}
+                        <form action="{%url 'professor:realizar_reserva_salas' %}" method="POST">{% csrf_token %}
 
                             <table>
                                 {{form.as_table}}
@@ -154,7 +154,7 @@
                     </div>
 
                     <div style="display: none;" id="reservar_materiais">
-                        <form action="{%url 'realizar_reserva_materiais' %}" method="POST">{% csrf_token %}
+                        <form action="{%url 'professor:realizar_reserva_materiais' %}" method="POST">{% csrf_token %}
 
                             <table>
                                 {{form.as_table}}
