@@ -1,11 +1,8 @@
-# Importando as bibliotecas necessárias
 from django.db import models
 from datetime import date
 from usuarios.models import Usuario
 
-# Modelo para as Salas
 class Salas(models.Model):
-    # Opções para o local da sala
     UABJ = 'UABJ'
     AEB = 'AEB'
     LOCAL_CHOICES = [
@@ -13,7 +10,6 @@ class Salas(models.Model):
         (AEB, 'AEB'),
     ]
 
-    # Campos do modelo Sala
     nome_da_sala = models.CharField(max_length = 30)
     local = models.CharField(max_length = 4, choices = LOCAL_CHOICES, default = UABJ)
     reservado = models.BooleanField(default = False)
@@ -21,13 +17,10 @@ class Salas(models.Model):
     class Meta:
         verbose_name = 'Sala'
 
-    # Representação em string do modelo
     def __str__(self):
         return self.nome_da_sala
 
-# Modelo para as Reservas
 class Reservas(models.Model):
-    # Campos do modelo Reserva
     usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     data_reserva = models.DateField()
     data_devolucao = models.DateField()
@@ -37,6 +30,5 @@ class Reservas(models.Model):
     class Meta:
         verbose_name = 'Reserva'
     
-    # Representação em string do modelo
     def __str__(self) -> str:
         return f"{self.usuarios} | {self.salas}"

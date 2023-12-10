@@ -127,8 +127,7 @@
                 <div class="modal-body">
 
                     <button style="margin-left: 100px" ; onclick="mostrar_form(1)" class="btn btn-info"> Salas </button>
-                    <button style="margin-left: 100px" ; onclick="mostrar_form(2)" class="btn btn-warning"> Materiais
-                    </button>
+                    <button style="margin-left: 100px" ; onclick="mostrar_form(2)" class="btn btn-warning"> Materiais </button>
 
                     <br>
                     <hr>
@@ -140,7 +139,18 @@
                                 {{form.as_table}}
                             </table>
                             <br>
-                            <input type="submit" class="btn btn-success" value="reservar sala">
+                            <input type="submit" class="btn btn-success" value="Reservar Sala">
+                        </form>
+                    </div>
+
+                    <div style="display: none;" id="reservar_materiais">
+                        <form action="{%url 'realizar_reserva_materiais' %}" method="POST">{% csrf_token %}
+
+                            <table>
+                                {{form.as_table}}
+                            </table>
+                            <br>
+                            <input type="submit" class="btn btn-success" value="Reservar Material">
                         </form>
                     </div>
                 </div>
