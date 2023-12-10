@@ -98,7 +98,17 @@
                 <span class="ms-2">UFRPE - Unidade Acadêmica de Belo Jardim</span>
             </a>
             {% if usuario_logado %}
+            {% comment %} <div class="mb-3">
+            <a href="{% url 'professor:homee' %}" class="btn btn-secondary">Inicio</a>
             <div class="d-flex">
+                <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Nova reserva
+                </button>
+                <a href="{% url 'sair' %}" class="btn btn-danger ms-2">Sair</a>
+            </div> {% endcomment %}
+
+            <div class="mb-3 d-flex justify-content-end">
+                <a href="{% url 'professor:homee' %}" class="btn btn-warning mr-2">Inicio</a>
                 <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Nova reserva
                 </button>
@@ -131,7 +141,7 @@
                         <hr>
 
                         <div style="display: none;" id="reservar_salas">
-                            <form action="{%url 'realizar_reserva_salas' %}" method="POST">{% csrf_token %}
+                            <form action="{%url 'professor:realizar_reserva_salas' %}" method="POST">{% csrf_token %}
 
                                 <table>
                                 {{form.as_table}}

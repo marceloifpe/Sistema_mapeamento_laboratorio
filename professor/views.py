@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
@@ -7,7 +7,25 @@ from usuarios.models import Usuario
 from salas.models import Salas
 from salas.models import Reservas
 from .forms import RealizarReservas
+from django.shortcuts import redirect
 
+# def homee(request):
+#     # Verifica se há um usuário na sessão
+#     if request.session.get('usuario'):
+#         # Obtém o objeto de usuário com base no ID armazenado na sessão
+#         usuario = Usuario.objects.get(id=request.session['usuario'])
+
+#         # Obtém as reservas associadas a esse usuário
+#         reservas = Reservas.objects.filter(usuarios=usuario)
+
+#         form = RealizarReservas()
+#         form.fields['usuarios'].initial = request.session['usuario']
+#         # Renderiza a página inicial com as informações de reservas
+#         return render(request, 'homee.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
+
+#     else:
+#         # Redireciona para a página de login se não houver usuário na sessão
+#         return redirect('/auth/login/?status=2')
 
 def homee(request):
     # Verifica se há um usuário na sessão
@@ -15,18 +33,17 @@ def homee(request):
         # Obtém o objeto de usuário com base no ID armazenado na sessão
         usuario = Usuario.objects.get(id=request.session['usuario'])
 
-        # Obtém as reservas associadas a esse usuário
-        reservas = Reservas.objects.filter(usuarios=usuario)
+        # Obtém as reservas associadas a esse usuário e as ordena pelo nome da sala
+        reservas = Reservas.objects.filter(usuarios=usuario).order_by('data_solicitacao')
 
         form = RealizarReservas()
         form.fields['usuarios'].initial = request.session['usuario']
-        # Renderiza a página inicial com as informações de reservas
+        # Renderiza a página inicial com as informações de reservas ordenadas
         return render(request, 'homee.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form': form})
 
     else:
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
-
 
 
 
@@ -77,6 +94,15 @@ def realizar_reserva_salas(request):
         form = RealizarReservas (request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse(request.POST)
+            return redirect('/professor/reserva_sucesso/')
+
         else:
             return HttpResponse('dados invalidos')
+
+
+# return redirect('professor/ver_salas_professor')
+
+
+def reserva_sucesso(request):
+    # Renderiza a página de sucesso com o botão para a tela inicial
+    return render(request, 'reserva_sucesso.html')
