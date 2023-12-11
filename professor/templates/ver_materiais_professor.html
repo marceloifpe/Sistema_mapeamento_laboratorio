@@ -3,9 +3,9 @@
 {% block 'conteudo' %}
 
 <div class="container">
-    <h1>Sala: <h4>{{Reservas.0.salas}}</h4>
+    <h1>Material: <h4>{{Reserva.0.materiais}}</h4>
 
-        {% for reserva in Reservas %}
+        {% for reserva in Reserva %}
 
 
         <h1>Data da reserva:</h1>
@@ -33,7 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in Reservas %}
+                {% for i in Reserva %}
                 <tr>
                     <th scope="row">{{i.usuarios}}</th>
                     <td>{{i.data_reserva}}</td>
