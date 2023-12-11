@@ -26,9 +26,10 @@
 
     {% with status_list='3 4 5 6 7' %}
     {% if status in status_list.split %}
-        <div class="alert alert-danger" role="alert">
-            Sua senha deve ter no mínimo 8 caracteres considerando: letras maiúsculas e minúsculas, números e caracteres especiais!
-        </div>
+    <div class="alert alert-danger" role="alert">
+        Sua senha deve ter no mínimo 8 caracteres considerando: letras maiúsculas e minúsculas, números e caracteres
+        especiais!
+    </div>
     {% endif %}
     {% endwith %}
 
@@ -62,7 +63,8 @@
                 <br>
                 <label>Senha</label>
                 <div class="input-group">
-                    <input name="senha" id="senha" class="form-control" type="password" placeholder="mínimo de 8 caracteres">
+                    <input name="senha" id="senha" class="form-control" type="password"
+                        placeholder="mínimo de 8 caracteres">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
@@ -82,18 +84,18 @@
 </div>
 
 <script>
-function converterMaiusculas(input) {
-    input.value = input.value.toUpperCase();
-}
-
-function mostrarSenha() {
-    var senhaInput = document.getElementById("senha");
-    if (senhaInput.type === "password") {
-        senhaInput.type = "text";
-    } else {
-        senhaInput.type = "password";
+    function converterMaiusculas(input) {
+        input.value = input.value.toUpperCase();
     }
-}
+
+    function mostrarSenha() {
+        var senhaInput = document.getElementById("senha");
+        if (senhaInput.type === "password") {
+            senhaInput.type = "text";
+        } else {
+            senhaInput.type = "password";
+        }
+    }
 </script>
 
 {% endblock %}
