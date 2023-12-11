@@ -2,7 +2,7 @@
 
 {% block 'titulo' %}Login{% endblock %}
 
-{% block 'conteudo' %}
+{% block 'conteudo' %} 
 
 <div class="container">
     <br>
@@ -21,7 +21,7 @@
         <div class="col-md-3">
 
         </div>
-
+   
         <div class="col-md">
             <h1>Login</h1>
             <hr>
@@ -32,8 +32,7 @@
                 <br>
                 <label>Senha</label>
                 <div class="input-group">
-                    <input name="senha" id="senha" class="form-control" type="password"
-                        placeholder="mínimo de 8 caracteres">
+                    <input name="senha" id="senha" class="form-control" type="password" placeholder="mínimo de 8 caracteres">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
@@ -61,6 +60,6 @@
             senhaInput.type = "password";
         }
     }
-</script>
+    </script>
 
 {% endblock %}
