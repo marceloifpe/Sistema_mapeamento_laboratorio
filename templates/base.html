@@ -60,7 +60,7 @@
                         <form action="{%url 'professor:realizar_reserva_salas' %}" method="POST">{% csrf_token %}
 
                             <table>
-                                {{form.as_table}}
+                                {{form_salas.as_table}}
                             </table>
                             <br>
                             <input type="submit" class="btn btn-success" value="Reservar Sala">
@@ -71,7 +71,7 @@
                         <form action="{%url 'professor:realizar_reserva_materiais' %}" method="POST">{% csrf_token %}
 
                             <table>
-                                {{form.as_table}}
+                                {{form_materiais.as_table}}
                             </table>
                             <br>
                             <input type="submit" class="btn btn-success" value="Reservar Material">

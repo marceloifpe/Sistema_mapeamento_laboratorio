@@ -24,9 +24,9 @@
     <div class="container">
         <div class="row">
 
-            {% for reserva in Reservas %}
+            {% for reserva in ReservasSalas %}
+          
             <div class="col-md">
-
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">{{reserva.salas}}</h5>
@@ -62,9 +62,13 @@
         </div>
     </div>
 
+    <br>
+
     <div class="container">
-    <div class="row">
-        {% for reserva in Reserva %}
+        <div class="row">
+
+            {% for reserva in ReservasMateriais %}
+
             <div class="col-md">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
