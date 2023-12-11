@@ -1,18 +1,26 @@
 from django.db import models
 from datetime import date
+
+
+
 from usuarios.models import Usuario
 
+
+ 
+
 class Salas(models.Model):
+
     UABJ = 'UABJ'
     AEB = 'AEB'
+
     LOCAL_CHOICES = [
         (UABJ, 'UABJ'),
         (AEB, 'AEB'),
     ]
-
     nome_da_sala = models.CharField(max_length = 30)
     local = models.CharField(max_length = 4, choices = LOCAL_CHOICES, default = UABJ)
     reservado = models.BooleanField(default = False)
+    
     
     class Meta:
         verbose_name = 'Sala'
@@ -32,3 +40,6 @@ class Reservas(models.Model):
     
     def __str__(self) -> str:
         return f"{self.usuarios} | {self.salas}"
+    
+
+    
