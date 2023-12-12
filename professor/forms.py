@@ -17,13 +17,20 @@ class RealizarReservas(forms.ModelForm):
             'data_devolucao': forms.DateInput(format='%d/%m/%Y', attrs={'type': 'date'}),
             'data_solicitacao': forms.HiddenInput(),
         }
+        labels = {
+            'data_reserva': 'Data de Reserva',
+            'data_devolucao': 'Data de Devolução',
+            'data_solicitacao': 'Data de Solicitação',
+            # Adicione outros rótulos conforme necessário
+        }
 
     def __init__(self, *args, **kwargs):
-        super(). __init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['usuarios'].widget = forms.HiddenInput()
         # Adicione a validação para os campos de data
         self.fields['data_reserva'].validators.append(validate_date_not_past)
         self.fields['data_devolucao'].validators.append(validate_date_not_past)
+
 
 class RealizarReserva(forms.ModelForm):
     class Meta:
@@ -34,8 +41,15 @@ class RealizarReserva(forms.ModelForm):
             'data_devolucao': forms.DateInput(format='%d/%m/%Y', attrs={'type': 'date'}),
             'data_solicitacao': forms.HiddenInput(),
         }
+        labels = {
+            'data_reserva': 'Data de Reserva',
+            'data_devolucao': 'Data de Devolução',
+            'data_solicitacao': 'Data de Solicitação',
+            # Adicione outros rótulos conforme necessário
+        }
+
     def __init__(self, *args, **kwargs):
-        super(). __init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['usuarios'].widget = forms.HiddenInput()
         self.fields['data_reserva'].validators.append(validate_date_not_past)
         self.fields['data_devolucao'].validators.append(validate_date_not_past)
