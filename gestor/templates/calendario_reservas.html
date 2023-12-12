@@ -3,22 +3,70 @@
 {% block 'titulo' %}Calendário de Reservas{% endblock %}
 
 {% block 'conteudo' %}
-<div class="container">
-    <div class="row">
-        <div id="calendario"></div>
-    </div>
-</div>
 
-<script>
-    $(document).ready(function() {
-        $('#calendario').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            events: {{ eventos|safe }},
-        });
-    });
-</script>
-{% endblock %}
+<html lang="en">
+<head>
+    <!-- Define o design da tabela -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Título da página -->
+    <h1>Calendário de Reservas</h1>
+
+    <!-- Tabela para exibir eventos do calendário -->
+    <table>
+        <!-- Cabeçalho da tabela -->
+        <thead>
+            <tr>
+                <th>Data de Solicitação</th>
+                <th>Data de Reserva</th>
+                <th>Data de Devolução</th>
+                <th>Eventos</th>
+            </tr>
+        </thead>
+        <!-- Corpo da tabela -->
+        <tbody>
+            <!-- Loop através dos eventos -->
+            {% for evento in eventos %}
+                <tr>
+                    <!-- Exibe a data de solicitação do primeiro evento na lista no formato brasileiro -->
+                    <td>{{ evento.eventos.0.data_solicitacao }}</td>
+                    <!-- Exibe a data do evento no formato brasileiro -->
+                    <td>{{ evento.data }}</td>
+                    <!-- Exibe a data de devolução do primeiro evento na lista no formato brasileiro -->
+                    <td>{{ evento.eventos.0.end }}</td>
+                    <td>
+                        <!-- Lista de eventos para a data específica -->
+                        <ul>
+                            <!-- Loop através dos eventos na data -->
+                            {% for evento_na_data in evento.eventos %}
+                                <li>
+                                    <!-- Exibe o título do evento e o nome da sala -->
+                                    {{ evento_na_data.title }} - {{ evento_na_data.salas.nome_da_sala }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+{%endblock%}

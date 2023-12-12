@@ -16,26 +16,41 @@ from django.utils import timezone
 def homee(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
-        # Obtém o objeto de usuário com base no ID armazenado na sessão
-        usuario = Usuario.objects.get(id=request.session['usuario'])
+        try:
+            # Obtém o objeto de usuário com base no ID armazenado na sessão
+            usuario = Usuario.objects.get(id=request.session['usuario'])
 
-        # Obtém as reservas de salas associadas a esse usuário
-        reservas_salas = Reservas.objects.filter(usuarios=usuario)
+            # Obtém as reservas de salas associadas a esse usuário
+            reservas_salas = Reservas.objects.filter(usuarios=usuario)
 
-        # Obtém as reservas de materiais associadas a esse usuário
-        reservas_materiais = Reserva.objects.filter(usuarios=usuario)
+            # Obtém as reservas de materiais associadas a esse usuário
+            reservas_materiais = Reserva.objects.filter(usuarios=usuario)
 
-        form_salas = RealizarReservas()
-        form_salas.fields['usuarios'].initial = request.session['usuario']
+            form_salas = RealizarReservas()
+            form_salas.fields['usuarios'].initial = request.session['usuario']
 
-        form_materiais = RealizarReserva()
-        form_materiais.fields['usuarios'].initial = request.session['usuario']
+            form_materiais = RealizarReserva()
+            form_materiais.fields['usuarios'].initial = request.session['usuario']
+            
 
-        # Renderiza a página inicial com as informações de reservas
-        return render(request, 'homee.html', {'ReservasSalas': reservas_salas, 'ReservasMateriais': reservas_materiais, 'usuario_logado': request.session.get('usuario'), 'form_salas': form_salas, 'form_materiais': form_materiais})
+            # Renderiza a página inicial com as informações de reservas e o objeto de usuário
+            return render(request, 'homee.html', {
+                'ReservasSalas': reservas_salas,
+                'ReservasMateriais': reservas_materiais,
+                'usuario_logado': usuario,
+                'form_salas': form_salas,
+                'form_materiais': form_materiais,
+                'usuario': usuario,          # Objeto de usuário
+                'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
+            })
 
+        except Usuario.DoesNotExist:
+            # Trata o caso em que o usuário não existe
+            messages.error(request, 'Usuário não encontrado.')
+            return render(request, 'error.html', {'message': 'Usuário não existe'})
     else:
         # Redireciona para a página de login se não houver usuário na sessão
+        messages.warning(request, 'Faça login para acessar a homee.')
         return redirect('/auth/login/?status=2')
 
 
@@ -123,7 +138,7 @@ def realizar_reserva_materiais(request):
         form_materiais = RealizarReservas()
 
     # Renderiza a página com o formulário
-    return render(request, 'homee.html', {'form': form_salas})
+    return render(request, 'homee.html', {'form': form_materiais})
 
 
 def reserva_sucesso(request):
