@@ -25,8 +25,9 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Materiais e reservas</h5>
-                    <p class="card-text">Aqui você pode reservar materiais para suas aulas ou pesquisas.</p>
+                    <h5 class="card-title">Salas</h5>
+                    <p class="card-text">Aqui você pode ver todas as salas cadastradas no sistema.</p>
+                    <a href="{% url 'gestor:gestor_ver_salas' %}" class="btn btn-primary">Ver salas</a>
                 </div>
             </div>
         </div>
@@ -35,18 +36,18 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Calendário de Reservas</h5>
-                    <p class="card-text">Veja as reservas das salas no calendário.</p>
-                    <a href="{% url 'calendario_reservas' %}" class="btn btn-primary">Ver Calendário</a>
+                    <h5 class="card-title">Materiais</h5>
+                    <p class="card-text">Aqui você pode ver todos materiais cadastrados no sistema.</p>
+                    <a href="{% url 'gestor:gestor_ver_materiais' %}" class="btn btn-primary">Ver materiais</a>
                 </div>
             </div>
         </div>
 
     </div>
     <br>
-    <div class="float-right">
+    <!-- <div class="float-right">
         <a href="{% url 'sair' %}" class="btn btn-danger">Sair</a>
-    </div>
+    </div> -->
 
 </div>
 
