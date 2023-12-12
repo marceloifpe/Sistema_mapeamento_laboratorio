@@ -2,12 +2,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
 from usuarios.models import Usuario
 from salas.models import Reservas
 from materiais.models import Reserva
-from .forms import RealizarReservas, RealizarReserva
+from .forms import RealizarReservas
+from .forms import RealizarReserva
+from django.core.exceptions import ValidationError
 
+from django.contrib import messages
+
+from django.utils import timezone
 # Função para renderizar a página inicial
 def homee(request):
     # Verifica se há um usuário na sessão
@@ -59,15 +63,27 @@ def ver_salas_professor(request, id):
         # Se não houver usuário na sessão, redireciona para a página de login
         return redirect('/auth/login/?status=2')
 
-# Função para realizar a reserva de salas
+
+
+
+
 def realizar_reserva_salas(request):
     if request.method == 'POST':
         form_salas = RealizarReservas(request.POST)
         if form_salas.is_valid():
             form_salas.save()
-            return HttpResponse(request.POST)
+            return redirect('/professor/reserva_sucesso/')
         else:
-            return HttpResponse('Dados inválidos')
+            # Adiciona uma mensagem de erro ao framework de mensagens
+            messages.error(request, 'Dados inválidos. Por favor, tente novamente.')
+            # Redireciona para a página principal
+            return redirect('/professor/reserva_dados_invalidos/')
+    else:
+        form_salas = RealizarReservas()
+
+    # Renderiza a página com o formulário
+    return render(request, 'homee.html', {'form': form_salas})
+
 
 # Função para o professor visualizar os materiais
 def ver_materiais_professor(request, id):
@@ -99,6 +115,23 @@ def realizar_reserva_materiais(request):
         form_materiais = RealizarReserva(request.POST)
         if form_materiais.is_valid():
             form_materiais.save()
-            return HttpResponse(request.POST)
+            return redirect('/professor/reserva_sucesso/')
         else:
-            return HttpResponse('Dados inválidos')
+            # Adiciona uma mensagem de erro ao framework de mensagens
+            messages.error(request, 'Dados inválidos. Por favor, tente novamente.')
+            # Redireciona para a página principal
+            return redirect('/professor/reserva_dados_invalidos/')
+    else:
+        form_materiais = RealizarReservas()
+
+    # Renderiza a página com o formulário
+    return render(request, 'homee.html', {'form': form_salas})
+
+
+def reserva_sucesso(request):
+    # Renderiza a página de sucesso com o botão para a tela inicial
+    return render(request, 'reserva_sucesso.html')
+
+def reserva_dados_invalidos(request):
+    # Renderiza a página de sucesso com o botão para a tela inicial
+    return render(request, 'reserva_dados_invalidos.html')
