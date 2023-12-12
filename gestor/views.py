@@ -13,6 +13,9 @@ def home(request):
     if request.session.get('usuario'):
         # Obtém o objeto de usuário com base no ID armazenado na sessão
         usuario = Usuario.objects.get(id=request.session['usuario'])
+       
+       # Obtém as reservas de salas associadas a esse usuário
+        reservas_salas = Reservas.objects.filter(usuarios=usuario)
 
         # Obtém as reservas de materiais associadas a esse usuário
         reservas_materiais = Reserva.objects.filter(usuarios=usuario)
@@ -28,6 +31,7 @@ def home(request):
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
 # Função para o gestor visualizar as salas
+
 def gestor_ver_salas(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -39,7 +43,7 @@ def gestor_ver_salas(request):
             context = {
                 'usuario': usuario,          # Objeto de usuário
                 'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
-                'salas': Salas.objects.filter(reservado=True),   # Obtém todas as instâncias do modelo Salas
+                'salas': Salas.objects.all(),   # Obtém todas as instâncias do modelo Salas
                 'usuario_logado2': usuario          
             }
 
@@ -62,7 +66,7 @@ def gestor_ver_materiais(request):
         context = {
                 'usuario': usuario,
                 'nome_usuario': usuario.nome,
-                'materiais': Materiais.objects.filter(reservado=True),
+                'materiais': Materiais.objects.all(),
                 'usuario_logado2': usuario
             }
 
