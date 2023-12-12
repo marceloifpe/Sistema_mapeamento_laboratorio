@@ -109,6 +109,12 @@
                 <a href="{% url 'sair' %}" class="btn btn-danger ms-2">Sair</a>
             </div>
             {% endif %}
+            {% if usuario_logado2 %}
+            <div class="d-flex">
+                <a href="{% url 'home' %}" class="btn btn-secondary ms-2">Home</a>
+                <a href="{% url 'sair' %}" class="btn btn-danger ms-2">Sair</a>
+            </div>
+            {% endif %}
         </div>
     </nav>
     {% block 'conteudo' %} {% endblock %}
