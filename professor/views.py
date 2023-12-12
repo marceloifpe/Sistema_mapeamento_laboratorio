@@ -49,11 +49,12 @@ def ver_salas_professor(request, id):
         # Obtém todas as reservas associadas ao usuário logado e ao ID fornecido
         reservas = Reservas.objects.filter(usuarios_id=usuario_id, id=id)
         form_salas = RealizarReservas()
+        form_materiais = RealizarReserva()
 
         # Verifica se há pelo menos uma reserva pertencente ao usuário logado
         if len(reservas) > 0:
             # Renderiza a página 'ver_salas_professor.html', passando as informações das reservas
-            return render(request, 'ver_salas_professor.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form_salas': form_salas})
+            return render(request, 'ver_salas_professor.html', {'Reservas': reservas, 'usuario_logado': request.session.get('usuario'), 'form_salas': form_salas, 'form_materiais': form_materiais})
 
         else:
             # Se não houver reservas para o usuário logado, retorna uma mensagem de erro
@@ -62,9 +63,6 @@ def ver_salas_professor(request, id):
     else:
         # Se não houver usuário na sessão, redireciona para a página de login
         return redirect('/auth/login/?status=2')
-
-
-
 
 
 def realizar_reserva_salas(request):
@@ -95,11 +93,11 @@ def ver_materiais_professor(request, id):
         # Obtém todas as reservas associadas ao usuário logado e ao ID fornecido
         reserva = Reserva.objects.filter(usuarios_id=usuario_id, id=id)
         form_materiais = RealizarReserva()
-
+        form_salas = RealizarReservas()
         # Verifica se há pelo menos uma reserva pertencente ao usuário logado
         if len(reserva) > 0:
             # Renderiza a página 'ver_materiais_professor.html', passando as informações das reservas
-            return render(request, 'ver_materiais_professor.html', {'Reserva': reserva, 'usuario_logado': request.session.get('usuario'), 'form_materiais': form_materiais})
+            return render(request, 'ver_materiais_professor.html', {'Reserva': reserva, 'usuario_logado': request.session.get('usuario'), 'form_materiais': form_materiais, 'form_salas': form_salas})
 
         else:
             # Se não houver reservas para o usuário logado, retorna uma mensagem de erro
