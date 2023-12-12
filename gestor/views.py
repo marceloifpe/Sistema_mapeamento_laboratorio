@@ -14,9 +14,6 @@ def home(request):
         # Obtém o objeto de usuário com base no ID armazenado na sessão
         usuario = Usuario.objects.get(id=request.session['usuario'])
 
-        # Obtém as reservas de salas associadas a esse usuário
-        reservas_salas = Reservas.objects.filter(usuarios=usuario)
-
         # Obtém as reservas de materiais associadas a esse usuário
         reservas_materiais = Reserva.objects.filter(usuarios=usuario)
 
