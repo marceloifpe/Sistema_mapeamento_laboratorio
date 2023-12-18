@@ -82,14 +82,18 @@ def gestor_ver_materiais(request):
         return redirect('/auth/login/?status=2')
     
 def calendario_reservas(request):
-    # Verifica se há um usuário na sessão
+     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
         try:
             # Obtém o objeto de usuário com base no ID armazenado na sessão
             usuario = Usuario.objects.get(id=request.session['usuario'])
 
-            # Obtenha todas as reservas do banco de dados
-            reservas = Reservas.objects.all()
+            # Obtenha todas as reservas do banco de dados (tanto de salas quanto de materiais)
+            reservas_salas = Reservas.objects.filter(salas__isnull=False)
+            reservas_materiais = Reserva.objects.filter(materiais__isnull=False)
+
+            # Combine as duas listas de reservas
+            reservas = list(reservas_salas) + list(reservas_materiais)
 
             # Ordene as reservas por data de reserva
             reservas_ordenadas = sorted(reservas, key=lambda x: x.data_reserva)
@@ -103,12 +107,16 @@ def calendario_reservas(request):
             for data, reservas_na_data in grupos_por_data.items():
                 eventos_na_data = []
                 for reserva in reservas_na_data:
+                    # Determine se a reserva é de sala ou material
+                    tipo_reserva = "Sala" if hasattr(reserva, 'salas') else "Material"
+                    
                     evento = {
-                        'title': f"Reserva por {reserva.usuarios.nome} - {reserva.salas.nome_da_sala}",
+                        'title': f"Reserva de {tipo_reserva} por {reserva.usuarios.nome} - {reserva.salas.nome_da_sala if tipo_reserva == 'Sala' else reserva.materiais.nome_do_material}",
                         'start': reserva.data_reserva.isoformat(),
-                        'end': reserva.data_devolucao.strftime("%d/%m/%Y"),  # Formate a data de devolução corretamente
-                        'url': f'/calendario_reservas.html/{reserva.id}',  # Substitua com a URL correta para detalhes da reserva
+                        'end': reserva.data_devolucao.strftime("%d/%m/%Y"),
+                        'url': f'/calendario_reservas.html/{reserva.id}',
                         'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y") if reserva.data_solicitacao else None,
+                        'tipo_reserva': tipo_reserva,
                     }
                     eventos_na_data.append(evento)
                 eventos.append({'data': data.strftime("%d/%m/%Y"), 'eventos': eventos_na_data})
