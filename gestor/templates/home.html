@@ -25,23 +25,32 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Salas e reservas</h5>
-                    <p class="card-text">Aqui você pode reservar salas para suas aulas, reuniões ou outros eventos.</p>
-                    <a href="{% url 'gestor_ver_salas' %}" class="btn btn-primary">Ver salas e reservas</a>
+                    <h5 class="card-title">Salas</h5>
+                    <p class="card-text">Aqui você pode ver todas as salas cadastradas no sistema.</p>
+                    <a href="{% url 'gestor:gestor_ver_salas' %}" class="btn btn-primary">Ver salas</a>
                 </div>
+            </div>
+        </div>
 
+        <!-- Novo bloco para o Calendário de Reservas -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Materiais</h5>
+                    <p class="card-text">Aqui você pode ver todos materiais cadastrados no sistema.</p>
+                    <a href="{% url 'gestor:gestor_ver_materiais' %}" class="btn btn-primary">Ver materiais</a>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Materiais e reservas</h5>
-                    <p class="card-text">Aqui você pode reservar materiais para suas aulas ou pesquisas.</p>
-                    <a href="{% url 'gestor_ver_materiais' %}" class="btn btn-primary">Ver materiais e reservas</a>
+                    <h5 class="card-title">Calendário de Reservas</h5>
+                    <p class="card-text">Veja as reservas das salas no calendário.</p>
+                    <a href="{% url 'gestor:calendario_reservas' %}" class="btn btn-primary">Ver Calendário</a>
                 </div>
             </div>
         </div>
-
     </div>
     <br>
     <!-- <div class="float-right">
