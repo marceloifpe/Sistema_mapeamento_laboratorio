@@ -80,7 +80,7 @@ def gestor_ver_materiais(request):
     else:
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
-    
+#calendário Salas    
 def calendario_reservas(request):
     # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
@@ -122,6 +122,48 @@ def calendario_reservas(request):
             return render(request, 'error.html', {'message': 'Usuário não existe'})
     else:
         # Redireciona para a página de login se não houver usuário na sessão
+        messages.warning(request, 'Faça login para acessar o calendário de reservas.')
+        return redirect('/auth/login/?status=2')
+
+
+# Função para exibir o calendário de reservas de materiais
+def calendario_reservas_materiais(request):
+    if request.session.get('usuario'):
+        try:
+            usuario = Usuario.objects.get(id=request.session['usuario'])
+
+            # Obtenha todas as reservas de materiais do banco de dados
+            reservas_materiais = Reserva.objects.filter(materiais__isnull=False)
+
+            # Ordene as reservas por data de reserva
+            reservas_ordenadas = sorted(reservas_materiais, key=lambda x: x.data_reserva)
+
+            # Agrupe as reservas por data de reserva
+            grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
+
+            # Crie uma lista para armazenar os eventos do calendário de materiais
+            eventos_materiais = []
+
+            for data, reservas_na_data in grupos_por_data.items():
+                eventos_na_data = []
+                for reserva in reservas_na_data:
+                    evento_material = {
+                        'title': f"Reserva de Material por {reserva.usuarios.nome} - {reserva.materiais.nome_do_material}",
+                        'start': reserva.data_reserva.isoformat(),
+                        'end': reserva.data_devolucao.strftime("%d/%m/%Y"),
+                        'url': f'/calendario_reservas_materiais.html/{reserva.id}',
+                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y") if reserva.data_solicitacao else None,
+                        'tipo_reserva': 'Material',  # Indica que é uma reserva de material
+                    }
+                    eventos_na_data.append(evento_material)
+                eventos_materiais.append({'data': data.strftime("%d/%m/%Y"), 'eventos': eventos_na_data})
+
+            return render(request, 'calendario_reservas_materiais.html', {'eventos_materiais': eventos_materiais, 'usuario_logado2': usuario})
+
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuário não encontrado.')
+            return render(request, 'error.html', {'message': 'Usuário não existe'})
+    else:
         messages.warning(request, 'Faça login para acessar o calendário de reservas.')
         return redirect('/auth/login/?status=2')
 
