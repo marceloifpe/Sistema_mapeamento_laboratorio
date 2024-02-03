@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
-{% block 'titulo' %}Calendário de Reservas de Salas{% endblock %}
+{% block 'titulo' %}Calendário de Reservas de Materiais{% endblock %}
 
 {% block 'conteudo' %}
-
 <html lang="en">
 <head>
     <!-- Define o design da tabela -->
@@ -26,7 +25,7 @@
 </head>
 <body>
     <!-- Título da página -->
-    <h1>Calendário de Reservas</h1>
+    <h1>Calendário de Reservas de Materiais</h1>
 
     <!-- Tabela para exibir eventos do calendário -->
     <table>
@@ -36,28 +35,28 @@
                 <th>Data de Solicitação</th>
                 <th>Data de Reserva</th>
                 <th>Data de Devolução</th>
-                <th>Eventos</th>
+                <th>Eventos</th>   
             </tr>
         </thead>
         <!-- Corpo da tabela -->
         <tbody>
             <!-- Loop através dos eventos -->
-            {% for evento in eventos %}
+            {% for evento_materiais in eventos_materiais %}
                 <tr>
                     <!-- Exibe a data de solicitação do primeiro evento na lista no formato brasileiro -->
-                    <td>{{ evento.eventos.0.data_solicitacao }}</td>
+                    <td>{{ evento_materiais.eventos.0.data_solicitacao }}</td>
                     <!-- Exibe a data do evento no formato brasileiro -->
-                    <td>{{ evento.data }}</td>
+                    <td>{{ evento_materiais.data }}</td>
                     <!-- Exibe a data de devolução do primeiro evento na lista no formato brasileiro -->
-                    <td>{{ evento.eventos.0.end }}</td>
+                    <td>{{ evento_materiais.eventos.0.end }}</td>
                     <td>
                         <!-- Lista de eventos para a data específica -->
                         <ul>
                             <!-- Loop através dos eventos na data -->
-                            {% for evento_na_data in evento.eventos %}
+                            {% for evento_na_data in evento_materiais.eventos %}
                                 <li>
-                                    <!-- Exibe o título do evento e o nome da sala -->
-                                    {{ evento_na_data.title }} - {{ evento_na_data.salas.nome_da_sala }}
+                                    <!-- Exibe o título do evento e o nome do usuário -->
+                                    {{ evento_na_data.title }} - {{ evento_na_data.materiais.nome_do_material }}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -68,5 +67,4 @@
     </table>
 </body>
 </html>
-
-{%endblock%}
+{% endblock %}

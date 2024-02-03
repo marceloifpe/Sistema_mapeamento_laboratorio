@@ -46,14 +46,24 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Calendário de Reservas</h5>
-                    <p class="card-text">Veja as reservas das salas no calendário.</p>
+                    <p class="card-text">Veja as reservas das Salas no calendário.</p>
                     <a href="{% url 'gestor:calendario_reservas' %}" class="btn btn-primary">Ver Calendário</a>
                 </div>
             </div>
         </div>
     </div>
-    <br>
-    <!-- <div class="float-right">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Calendário de Reservas</h5>
+                <p class="card-text">Veja as reservas das Materiais no calendário.</p>
+                <a href="{% url 'gestor:calendario_reservas_materiais' %}" class="btn btn-primary">Ver Calendário</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- <div class="float-right">
         <a href="{% url 'sair' %}" class="btn btn-danger">Sair</a>
     </div> -->
 
