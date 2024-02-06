@@ -14,9 +14,9 @@ class Materiais(models.Model):
 
 class Reserva(models.Model):
     usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
-    data_reserva = models.DateField()
-    data_devolucao = models.DateField()
-    data_solicitacao = models.DateField(default=date.today)
+    data_reserva = models.DateTimeField()
+    data_devolucao = models.DateTimeField()
+    data_solicitacao = models.DateTimeField(auto_now_add=True)
     materiais = models.ForeignKey(Materiais, on_delete=models.DO_NOTHING)
     
     class Meta:

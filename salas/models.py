@@ -22,9 +22,9 @@ class Salas(models.Model):
 
 class Reservas(models.Model):
     usuarios = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
-    data_reserva = models.DateField()
-    data_devolucao = models.DateField()
-    data_solicitacao = models.DateField(default = date.today)
+    data_reserva = models.DateTimeField()  # Alterado para DateTimeField
+    data_devolucao = models.DateTimeField()  # Alterado para DateTimeField
+    data_solicitacao = models.DateTimeField(auto_now_add=True)  # Alterado para DateTimeField
     salas = models.ForeignKey(Salas, on_delete=models.DO_NOTHING)
     
     class Meta:
