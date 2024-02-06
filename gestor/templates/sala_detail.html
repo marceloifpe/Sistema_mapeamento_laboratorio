@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block 'titulo' %}Salas Cadastradas{% endblock %}
+
+{% block 'conteudo' %}
+<!DOCTYPE html>   
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Visualizar Sala</title>
+</head>
+<body>
+    <input type="submit" onclick="location.href = '{%url 'gestor:sala_list' %}'" value="Voltar Para Lista">
+    <br/>
+    Nome da Sala: {{ object.nome_da_sala }}
+    <br/>
+    Local: {{ object.local }}
+</body>
+</html>
+
+{% endblock %}
