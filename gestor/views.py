@@ -1,13 +1,21 @@
 # Importando as bibliotecas necessárias
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from gestor.forms import SalaForm
 from materiais.models import Materiais, Reserva
 from usuarios.models import Usuario
 from salas.models import Salas
 from salas.models import Reservas
 from itertools import groupby
 from django.contrib import messages
+from django.shortcuts import render
+from django.db.models import F
+from itertools import groupby
+from .models import Reserva
 
 def home(request):
     # Verifica se há um usuário na sessão
@@ -166,4 +174,76 @@ def calendario_reservas_materiais(request):
     else:
         messages.warning(request, 'Faça login para acessar o calendário de reservas.')
         return redirect('/auth/login/?status=2')
+    
+def teste(request):
+    if request.session.get('usuario'):
+        try:
+            usuario = Usuario.objects.get(id=request.session['usuario'])
+            reservas = Reserva.objects.all()
 
+            # Ordene as reservas por data de reserva
+            reservas_ordenadas = reservas.order_by('data_reserva')
+
+            # Agrupe as reservas por data de reserva
+            grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
+
+            eventos_mat = []
+
+            for data, reservas_na_data in grupos_por_data.items():
+                for reserva in reservas_na_data:
+                    # Adicione o nome do usuário ao título do evento
+                    evento_material = {
+                        'title': f"Reserva de {reserva.usuarios.nome} - {reserva.materiais.nome_do_material}",
+                        'start': reserva.data_reserva.isoformat(),
+                        # 'end': reserva.data_devolucao.isoformat(),
+                    }
+                    eventos_mat.append(evento_material)
+
+            return render(request, 'index.html', {'eventos_mat': eventos_mat, 'usuario_logado2': usuario})
+        except Reserva.DoesNotExist:
+            messages.error(request, 'Reservas não encontradas.')
+            return render(request, 'error.html', {'message': 'Reservas não existem'})
+    else:
+        # Se não houver um usuário na sessão
+        messages.warning(request, 'Faça login para acessar o calendário de reservas.')
+        return redirect('/auth/login/?status=2')
+
+# def cadastro_salas (request):
+#     return render(request, 'cadastro_salas.html')
+
+# class SalaList(ListView):
+#     model = Salas
+#     queryset = Salas.objects.all()
+
+# class SalaCreate(CreateView):
+#     model = Salas
+#     fields = '__all__'
+#     success_url = reverse_lazy('gestor:list')
+
+
+class SalaListView(ListView):
+    model = Salas
+    template_name = 'sala_list.html'
+    context_object_name = 'salas'
+
+class SalaCreateView(CreateView):
+    model = Salas
+    form_class = SalaForm
+    template_name = 'sala_form.html'
+    success_url = reverse_lazy('gestor:sala_list')
+
+class SalaUpdateView(UpdateView):
+    model = Salas
+    form_class = SalaForm
+    template_name = 'sala_form.html'
+    success_url = reverse_lazy('gestor:sala_list')
+    
+class SalaDetailView(DetailView):
+    model = Salas
+    template_name = 'sala_detail.html'
+    context_object_name = 'sala'
+
+class SalaDeleteView(DeleteView):
+    model = Salas
+    template_name = 'sala_confirm_delete.html'
+    success_url = reverse_lazy('gestor:sala_list')

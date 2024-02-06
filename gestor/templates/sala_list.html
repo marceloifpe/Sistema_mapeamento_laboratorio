@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block 'titulo' %}Salas Cadastradas{% endblock %}
+
+{% block 'conteudo' %}
+<!DOCTYPE html>   
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <div class="d-flex">
+                <a href="{% url 'gestor:home' %}" class="btn btn-secondary ms-2">Home</a>
+                <a href="{% url 'sair' %}" class="btn btn-danger ms-2">Sair</a>
+            </div>
+    <title>Listando as Salas</title>
+</head>
+<body>
+    <h1>Listar Salas</h1>
+    <input type="submit" value="Cadastrar Nova Sala" onclick="location.href = '{% url 'gestor:sala_create' %}'">
+    <ul>
+        {% for Salas in object_list %}
+        <li>{{Salas.nome_da_sala}} - {{Salas.local}} - <a href= "{%  url 'gestor:sala_edit' pk=Salas.id %}">Editar</a> -
+        <a href= "{%  url 'gestor:sala_detail' pk=Salas.id %}">Visualizar</a> -
+        <a href= "{%  url 'gestor:sala_delete' pk=Salas.id %}">Apagar</a> 
+        </li>
+        <!-- <li>{{Salas.local}}</li> -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% endblock %}
