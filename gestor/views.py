@@ -208,18 +208,6 @@ def teste(request):
         messages.warning(request, 'Faça login para acessar o calendário de reservas.')
         return redirect('/auth/login/?status=2')
 
-# def cadastro_salas (request):
-#     return render(request, 'cadastro_salas.html')
-
-# class SalaList(ListView):
-#     model = Salas
-#     queryset = Salas.objects.all()
-
-# class SalaCreate(CreateView):
-#     model = Salas
-#     fields = '__all__'
-#     success_url = reverse_lazy('gestor:list')
-
 
 class SalaListView(ListView):
     model = Salas

@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
-{% block 'titulo' %}Calendário de Reservas de Salas{% endblock %}
+{% block 'titulo' %}
+    <!-- Define o título da página como "Calendário de Reservas de Salas" -->
+    Calendário de Reservas de Salas
+{% endblock %}
 
 {% block 'conteudo' %}
-
 <html lang="en">
 <head>
     <!-- Define o design da tabela -->
@@ -33,6 +35,7 @@
         <!-- Cabeçalho da tabela -->
         <thead>
             <tr>
+                <!-- Define os cabeçalhos das colunas -->
                 <th>Data de Solicitação</th>
                 <th>Data de Reserva</th>
                 <th>Data de Devolução</th>
@@ -68,5 +71,4 @@
     </table>
 </body>
 </html>
-
-{%endblock%}
+{% endblock %}

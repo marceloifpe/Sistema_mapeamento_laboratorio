@@ -3,7 +3,6 @@ from . import views
 from .views import calendario_reservas
 from .views import calendario_reservas_materiais
 from .views import teste
-# from .views import CadastroSalasView
 from .views import SalaListView, SalaCreateView, SalaUpdateView, SalaDetailView, SalaDeleteView
 
 
@@ -20,8 +19,6 @@ urlpatterns = [
     path('salas/', SalaListView.as_view(), name='sala_list'),
     path('salas/nova/', SalaCreateView.as_view(), name='sala_create'),
     path('salas/<int:pk>/editar/', SalaUpdateView.as_view(), name='sala_edit'),
-    path('salas/<int:pk>/detail/', SalaDetailView.as_view(), name='sala_detail'),  # Nova rota para detalhes da sala
+    path('salas/<int:pk>/detail/', SalaDetailView.as_view(), name='sala_detail'),
     path('salas/<int:pk>/excluir/', SalaDeleteView.as_view(), name='sala_delete')
 ]
-
-

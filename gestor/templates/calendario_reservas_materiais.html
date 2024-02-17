@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
-{% block 'titulo' %}Calendário de Reservas de Materiais{% endblock %}
+{% block 'titulo' %}
+    <!-- Define o título da página como "Calendário de Reservas de Materiais" -->
+    Calendário de Reservas de Materiais
+{% endblock %}
 
 {% block 'conteudo' %}
 <html lang="en">
@@ -32,6 +35,7 @@
         <!-- Cabeçalho da tabela -->
         <thead>
             <tr>
+                <!-- Define os cabeçalhos das colunas -->
                 <th>Data de Solicitação</th>
                 <th>Data de Reserva</th>
                 <th>Data de Devolução</th>
@@ -55,7 +59,7 @@
                             <!-- Loop através dos eventos na data -->
                             {% for evento_na_data in evento_materiais.eventos %}
                                 <li>
-                                    <!-- Exibe o título do evento e o nome do usuário -->
+                                    <!-- Exibe o título do evento e o nome do material -->
                                     {{ evento_na_data.title }} - {{ evento_na_data.materiais.nome_do_material }}
                                 </li>
                             {% endfor %}

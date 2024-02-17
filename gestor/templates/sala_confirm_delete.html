@@ -3,23 +3,25 @@
 {% block 'titulo' %}Salas Cadastradas{% endblock %}
 
 {% block 'conteudo' %}
-<!DOCTYPE html>   
+<!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Apagar Sala</title>
 </head>
+
 <body>
-Tem certeza que deseja Apagar a Sala '{{object.nome_da_sala}}'?
-<form action="." method="post" >
-{% csrf_token %}
-<input type="submit" value="Sim, Tenho Certeza">
-<input type="reset" onclick="location.href = '{% url 'gestor:sala_list' %}'" value="Não quero Apagar"
-</form>
+    Tem certeza que deseja Apagar a Sala '{{object.nome_da_sala}}'?
+    <form action="." method="post">
+        {% csrf_token %}
+        <input type="submit" value="Sim, Tenho Certeza">
+        <input type="reset" onclick="location.href = '{% url 'gestor:sala_list' %}'" value="Não quero Apagar" </form>
 </body>
+
 </html>
 
 {% endblock %}
