@@ -5,6 +5,7 @@
 {% block 'conteudo' %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
     </style>
     <title>Calendário de Reservas</title>
 </head>
+
 <body>
     <h1>Calendário de Reservas de Materiais</h1> <!-- Título adicionado -->
 
@@ -32,18 +34,19 @@
                 events: [
                     {% for evento in eventos_mat %}
                         {
-                            title: '{{ evento.title }}',
-                            start: '{{ evento.start }}',
-                            end: '{{ evento.end }}',
-                        },
-                    {% endfor %}
+                    title: '{{ evento.title }}',
+                    start: '{{ evento.start }}',
+                    end: '{{ evento.end }}',
+                },
+                {% endfor %}
                 ],
-                locale: 'pt-br',
+            locale: 'pt-br',
             });
 
-            calendar.render();
+        calendar.render();
         });
     </script>
 </body>
+
 </html>
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block 'titulo' %}Home{% endblock %}
+{% block 'titulo' %}
+    Home
+{% endblock %}
 
 {% block 'conteudo' %}
 
@@ -8,11 +10,14 @@
     <br>
     <br>
 
+    <!-- Título principal da página -->
     <h1 class="display-4">Sistema de Mapeamento de Materiais
         <hr style="display: block;">
     </h1>
 
+    <!-- Saudação ao administrador -->
     <p class="lead">
+        <!-- Ícone de casa seguido da mensagem de boas-vindas -->
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
             viewBox="0 0 16 16">
             <path
@@ -21,7 +26,9 @@
         Olá, Administrador! Seja bem-vindo a sua Dashboard.
     </p>
 
+    <!-- Row principal -->
     <div class="row">
+        <!-- Coluna para as Salas -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -32,7 +39,7 @@
             </div>
         </div>
 
-        <!-- Novo bloco para o Calendário de Reservas -->
+        <!-- Coluna para os Materiais -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -42,6 +49,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Coluna para o Calendário de Reservas -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -52,41 +61,42 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Calendário de Reservas</h5>
-                <p class="card-text">Veja as reservas das Materiais no calendário.</p>
-                <a href="{% url 'gestor:calendario_reservas_materiais' %}" class="btn btn-primary">Ver Calendário</a>
+
+    <!-- Segunda row -->
+    <div class="row">
+        <!-- Coluna para o Calendário de Reservas de Materiais -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Calendário de Reservas de Materiais</h5>
+                    <p class="card-text">Veja as reservas dos Materiais no calendário.</p>
+                    <a href="{% url 'gestor:calendario_reservas_materiais' %}" class="btn btn-primary">Ver Calendário</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna para o Teste de Reservas -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Teste de Reservas</h5>
+                    <p class="card-text">Veja as reservas dos Materiais no calendário.</p>
+                    <a href="{% url 'gestor:teste' %}" class="btn btn-primary">Ver Calendário</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna para o Cadastro de Salas -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cadastro de Salas</h5>
+                    <p class="card-text">Visualizar Cadastros</p>
+                    <a href="{% url 'gestor:sala_list' %}" class="btn btn-primary">Ver</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="col-md-4">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Teste de Reservas</h5>
-            <p class="card-text">Veja as reservas das Materiais no calendário.</p>
-            <a href="{% url 'gestor:teste' %}" class="btn btn-primary">Ver Calendário</a>
-        </div>
-    </div>
-</div>
-</div>
-<div class="col-md-4">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Cadastro de Salas</h5>
-            <p class="card-text">Visualizar Cadastros</p>
-            <a href="{% url 'gestor:sala_list' %}" class="btn btn-primary">Ver</a>
-        </div>
-    </div>
-</div>
-</div>
-<br>
-<!-- <div class="float-right">
-        <a href="{% url 'sair' %}" class="btn btn-danger">Sair</a>
-    </div> -->
-
 </div>
 
 {% endblock %}

@@ -8,10 +8,11 @@ from materiais.models import Reserva
 from .forms import RealizarReservas
 from .forms import RealizarReserva
 from django.core.exceptions import ValidationError
-
 from django.contrib import messages
-
 from django.utils import timezone
+
+
+
 # Função para renderizar a página inicial
 def homee(request):
     # Verifica se há um usuário na sessão
@@ -40,8 +41,8 @@ def homee(request):
                 'usuario_logado': usuario,
                 'form_salas': form_salas,
                 'form_materiais': form_materiais,
-                'usuario': usuario,          # Objeto de usuário
-                'nome_usuario': usuario.nome, # Atributo 'nome' do usuário
+                'usuario': usuario,
+                'nome_usuario': usuario.nome,
             })
 
         except Usuario.DoesNotExist:
