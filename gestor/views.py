@@ -114,8 +114,8 @@ def calendario_reservas(request):
                     evento = {
                         'title': f"Reserva por {reserva.usuarios.nome} - {reserva.salas.nome_da_sala}",
                         'start': reserva.data_reserva.isoformat(),
-                        'end': reserva.data_devolucao.strftime("%d/%m/%Y"),  # Formate a data de devolução corretamente
-                        'url': f'/calendario_reservas.html/{reserva.id}',  # Substitua com a URL correta para detalhes da reserva
+                        'end': reserva.data_devolucao.strftime("%d/%m/%Y %H:%M" ),  # Formata a data de devolução corretamente
+                        'url': f'/calendario_reservas.html/{reserva.id}',  # Substitue com a URL correta para detalhes da reserva
                         'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y") if reserva.data_solicitacao else None,
                     }
                     eventos_na_data.append(evento)
@@ -141,10 +141,10 @@ def calendario_reservas_materiais(request):
             usuario = Usuario.objects.get(id=request.session['usuario'])
 
             # Obtenha todas as reservas de materiais do banco de dados
-            reservas_salas = Reservas.objects.filter(salas__isnull=False)
+            reservas_materiais = Reserva.objects.filter(materiais__isnull=False)
 
             # Ordene as reservas por data de reserva
-            reservas_ordenadas = sorted(reservas_salas, key=lambda x: x.data_reserva)
+            reservas_ordenadas = sorted(reservas_materiais, key=lambda x: x.data_reserva)
 
             # Agrupe as reservas por data de reserva
             grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
