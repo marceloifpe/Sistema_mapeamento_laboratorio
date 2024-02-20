@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block 'titulo' %}Calendário de Reservas de Materiais{% endblock %}
+{% block 'titulo' %}Calendário de Reservas de Salas{% endblock %}
 
 {% block 'conteudo' %}
 <!DOCTYPE html>
@@ -18,11 +18,11 @@
             height: 900px;
         }
     </style>
-    <title>Calendário de Reservas</title>
+    <title>Calendário de Reservas de Salas</title>
 </head>
 
 <body>
-    <h1>Calendário de Reservas de Materiais</h1> <!-- Título adicionado -->
+    <h1>Calendário de Reservas de Salas</h1>
 
     <div id='calendar'></div>
 
@@ -32,18 +32,21 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: [
-                    {% for evento in eventos_mat %}
+                    {% for evento in eventos_sal %}
                         {
-                    title: '{{ evento.title }}',
-                    start: '{{ evento.start }}',
-                    end: '{{ evento.end }}',
-                },
-                {% endfor %}
+                            title: '{{ evento.title }}',
+                            start: '{{ evento.start }}',
+                            end: '{{ evento.end }}',
+                        },
+                    {% endfor %}
                 ],
-            locale: 'pt-br',
+                locale: 'pt-br',
+                buttonText: { // Tradução dos botões
+                    today: 'Hoje'
+                }
             });
 
-        calendar.render();
+            calendar.render();
         });
     </script>
 </body>

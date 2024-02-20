@@ -54,8 +54,8 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Calendário de Reservas</h5>
-                    <p class="card-text">Veja as reservas das Salas no calendário.</p>
+                    <h5 class="card-title">Calendário de Reservas de Salas</h5>
+                    <p class="card-text">Veja as reservas das Salas na tabela.</p>
                     <a href="{% url 'gestor:calendario_reservas' %}" class="btn btn-primary">Ver Calendário</a>
                 </div>
             </div>
@@ -69,19 +69,30 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Calendário de Reservas de Materiais</h5>
-                    <p class="card-text">Veja as reservas dos Materiais no calendário.</p>
+                    <p class="card-text">Veja as reservas dos Materiais na tabela.</p>
                     <a href="{% url 'gestor:calendario_reservas_materiais' %}" class="btn btn-primary">Ver Calendário</a>
                 </div>
             </div>
         </div>
 
-        <!-- Coluna para o Teste de Reservas -->
+        <!-- Coluna para o Teste de Reservas Materiais -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Teste de Reservas</h5>
+                    <h5 class="card-title">Reservas de Materiais</h5>
                     <p class="card-text">Veja as reservas dos Materiais no calendário.</p>
-                    <a href="{% url 'gestor:teste' %}" class="btn btn-primary">Ver Calendário</a>
+                    <a href="{% url 'gestor:reservas_materiais' %}" class="btn btn-primary">Ver Calendário</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna para o Teste de Reservas Salas -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reservas de Salas</h5>
+                    <p class="card-text">Veja as reservas das Salas no calendário.</p>
+                    <a href="{% url 'gestor:reservas_salas' %}" class="btn btn-primary">Ver Calendário</a>
                 </div>
             </div>
         </div>
@@ -93,6 +104,16 @@
                     <h5 class="card-title">Cadastro de Salas</h5>
                     <p class="card-text">Visualizar Cadastros</p>
                     <a href="{% url 'gestor:sala_list' %}" class="btn btn-primary">Ver</a>
+                </div>
+            </div>
+        </div>
+        <!-- Coluna para o Cadastro de Salas -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cadastro de Materiais</h5>
+                    <p class="card-text">Visualizar Cadastros</p>
+                    <a href="{% url 'gestor:material_list' %}" class="btn btn-primary">Ver</a>
                 </div>
             </div>
         </div>

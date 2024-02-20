@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from gestor.forms import SalaForm
+from gestor.forms import MaterialForm, SalaForm
 from materiais.models import Materiais, Reserva
 from usuarios.models import Usuario
 from salas.models import Salas
@@ -141,10 +141,10 @@ def calendario_reservas_materiais(request):
             usuario = Usuario.objects.get(id=request.session['usuario'])
 
             # Obtenha todas as reservas de materiais do banco de dados
-            reservas_materiais = Reserva.objects.filter(materiais__isnull=False)
+            reservas_salas = Reservas.objects.filter(salas__isnull=False)
 
             # Ordene as reservas por data de reserva
-            reservas_ordenadas = sorted(reservas_materiais, key=lambda x: x.data_reserva)
+            reservas_ordenadas = sorted(reservas_salas, key=lambda x: x.data_reserva)
 
             # Agrupe as reservas por data de reserva
             grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
@@ -175,7 +175,7 @@ def calendario_reservas_materiais(request):
         messages.warning(request, 'Faça login para acessar o calendário de reservas.')
         return redirect('/auth/login/?status=2')
     
-def teste(request):
+def reservas_materiais(request):
     if request.session.get('usuario'):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario'])
@@ -199,8 +199,40 @@ def teste(request):
                     }
                     eventos_mat.append(evento_material)
 
-            return render(request, 'index.html', {'eventos_mat': eventos_mat, 'usuario_logado2': usuario})
+            return render(request, 'reservas_materiais.html', {'eventos_mat': eventos_mat, 'usuario_logado2': usuario})
         except Reserva.DoesNotExist:
+            messages.error(request, 'Reservas não encontradas.')
+            return render(request, 'error.html', {'message': 'Reservas não existem'})
+    else:
+        # Se não houver um usuário na sessão
+        messages.warning(request, 'Faça login para acessar o calendário de reservas.')
+        return redirect('/auth/login/?status=2')
+def reservas_salas(request):
+    if request.session.get('usuario'):
+        try:
+            usuario = Usuario.objects.get(id=request.session['usuario'])
+            reservas = Reservas.objects.all()
+
+            # Ordene as reservas por data de reserva
+            reservas_ordenadas = reservas.order_by('data_reserva')
+
+            # Agrupe as reservas por data de reserva
+            grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
+
+            eventos_sal = []
+
+            for data, reservas_na_data in grupos_por_data.items():
+                for reserva in reservas_na_data:
+                    # Adicione o nome do usuário ao título do evento
+                    evento_sala = {
+                        'title': f"Reserva de {reserva.usuarios.nome} - {reserva.salas.nome_da_sala}",
+                        'start': reserva.data_reserva.isoformat(),
+                        # 'end': reserva.data_devolucao.isoformat(),
+                    }
+                    eventos_sal.append(evento_sala)
+
+            return render(request, 'reservas_salas.html', {'eventos_sal': eventos_sal, 'usuario_logado2': usuario})
+        except Reservas.DoesNotExist:
             messages.error(request, 'Reservas não encontradas.')
             return render(request, 'error.html', {'message': 'Reservas não existem'})
     else:
@@ -209,6 +241,7 @@ def teste(request):
         return redirect('/auth/login/?status=2')
 
 
+#CRUD Salas
 class SalaListView(ListView):
     model = Salas
     template_name = 'sala_list.html'
@@ -235,3 +268,31 @@ class SalaDeleteView(DeleteView):
     model = Salas
     template_name = 'sala_confirm_delete.html'
     success_url = reverse_lazy('gestor:sala_list')
+
+#CRUD Materiais    
+class MaterialListView(ListView):
+    model = Materiais
+    template_name = 'material_list.html'
+    context_object_name = 'materiais'    
+
+class MaterialCreateView(CreateView):
+    model = Materiais
+    form_class = MaterialForm
+    template_name = 'material_form.html'
+    success_url = reverse_lazy('gestor:material_list') 
+
+class MaterialUpdateView(UpdateView):
+    model = Materiais
+    form_class = MaterialForm
+    template_name = 'material_form.html'
+    success_url = reverse_lazy('gestor:material_list')
+    
+class MaterialDetailView(DetailView):
+    model = Materiais
+    template_name = 'material_detail.html'
+    context_object_name = 'material'
+
+class MaterialDeleteView(DeleteView):
+    model = Materiais
+    template_name = 'material_confirm_delete.html'
+    success_url = reverse_lazy('gestor:material_list')   
