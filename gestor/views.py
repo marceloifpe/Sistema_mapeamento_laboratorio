@@ -246,6 +246,10 @@ class SalaListView(ListView):
     model = Salas
     template_name = 'sala_list.html'
     context_object_name = 'salas'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario_logado2'] = self.request.user  # Adicione esta linha para passar o usuário logado para o template
+        return context
 
 class SalaCreateView(CreateView):
     model = Salas
@@ -273,7 +277,11 @@ class SalaDeleteView(DeleteView):
 class MaterialListView(ListView):
     model = Materiais
     template_name = 'material_list.html'
-    context_object_name = 'materiais'    
+    context_object_name = 'materiais'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario_logado2'] = self.request.user  # Adicione esta linha para passar o usuário logado para o template
+        return context    
 
 class MaterialCreateView(CreateView):
     model = Materiais
