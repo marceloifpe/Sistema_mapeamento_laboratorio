@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block 'titulo' %}Materiais Cadastrados{% endblock %}
+
+{% block 'conteudo' %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listando os Materiais</title>
+</head>
+
+<body>
+    <h1>Listar Materiais</h1>
+    <input type="submit" value="Cadastrar Novo Material" onclick="location.href = '{% url 'gestor:material_create' %}'">
+    <ul>
+        {% for Materiais in object_list %}
+        <li>{{Materiais.nome_do_material}} - <a href="{%  url 'gestor:material_edit' pk=Materiais.id %}">Editar</a> -
+            <a href="{%  url 'gestor:material_detail' pk=Materiais.id %}">Visualizar</a> -
+            <a href="{%  url 'gestor:material_delete' pk=Materiais.id %}">Apagar</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
+
+{% endblock %}
