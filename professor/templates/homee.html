@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ reserva.salas }}</h5>
                         <p class="card-text">Data devolução: <span class="text-muted">{{ reserva.data_devolucao }}</span></p>
-                        <a href="{% url 'professor:ver_salas_professor' reserva.id %}" class="btn btn-sm btn-info">Detalhes</a>
+                        <a href="{% url 'professor:ver_salas_professor' reserva.id %}" class="btn btn-primary">Detalhes</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ reserva.materiais }}</h5>
                         <p class="card-text">Data devolução: <span class="text-muted">{{ reserva.data_devolucao }}</span></p>
-                        <a href="{% url 'professor:ver_materiais_professor' reserva.id %}" class="btn btn-sm btn-info">Detalhes</a>
+                        <a href="{% url 'professor:ver_materiais_professor' reserva.id %}" class="btn btn-primary">Detalhes</a>
                     </div>
                 </div>
                 {% endfor %}
