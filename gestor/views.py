@@ -116,7 +116,7 @@ def calendario_reservas(request):
                         'start': reserva.data_reserva.isoformat(),
                         'end': reserva.data_devolucao.strftime("%d/%m/%Y %H:%M" ),  # Formata a data de devolução corretamente
                         'url': f'/calendario_reservas.html/{reserva.id}',  # Substitue com a URL correta para detalhes da reserva
-                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y") if reserva.data_solicitacao else None,
+                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M") if reserva.data_solicitacao else None,
                     }
                     eventos_na_data.append(evento)
                 eventos.append({'data': data.strftime("%d/%m/%Y"), 'eventos': eventos_na_data})
@@ -158,9 +158,9 @@ def calendario_reservas_materiais(request):
                     evento_material = {
                         'title': f"Reserva de Material por {reserva.usuarios.nome} - {reserva.materiais.nome_do_material}",
                         'start': reserva.data_reserva.isoformat(),
-                        'end': reserva.data_devolucao.strftime("%d/%m/%Y"),
+                        'end': reserva.data_devolucao.strftime("%d/%m/%Y %H:%M"),
                         'url': f'/calendario_reservas_materiais.html/{reserva.id}',
-                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y") if reserva.data_solicitacao else None,
+                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M" ) if reserva.data_solicitacao else None,
                         'tipo_reserva': 'Material',  # Indica que é uma reserva de material
                     }
                     eventos_na_data.append(evento_material)
