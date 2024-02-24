@@ -136,7 +136,7 @@ def realizar_reserva_materiais(request):
             # Redireciona para a página principal
             return redirect('/professor/reserva_dados_invalidos/')
     else:
-        form_materiais = RealizarReservas()
+        form_materiais = RealizarReserva()
 
     # Renderiza a página com o formulário
     return render(request, 'homee.html', {'form': form_materiais})
