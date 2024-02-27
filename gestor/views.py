@@ -1,4 +1,5 @@
 # Importando as bibliotecas necessárias
+from datetime import timezone
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +17,8 @@ from django.shortcuts import render
 from django.db.models import F
 from itertools import groupby
 from .models import Reserva
+from django.utils import timezone
+
 
 def home(request):
     # Verifica se há um usuário na sessão
@@ -88,50 +91,44 @@ def gestor_ver_materiais(request):
     else:
         # Redireciona para a página de login se não houver usuário na sessão
         return redirect('/auth/login/?status=2')
-#calendário Salas    
+
+#Função para exibir calendario salas-Tabela
 def calendario_reservas(request):
-    # Verifica se há um usuário na sessão
     if request.session.get('usuario'):
         try:
-            # Obtém o objeto de usuário com base no ID armazenado na sessão
             usuario = Usuario.objects.get(id=request.session['usuario'])
-
-            # Obtenha todas as reservas do banco de dados
             reservas = Reservas.objects.all()
-
-            # Ordene as reservas por data de reserva
             reservas_ordenadas = sorted(reservas, key=lambda x: x.data_reserva)
-
-            # Agrupe as reservas por data de reserva
             grupos_por_data = {data: list(grupo) for data, grupo in groupby(reservas_ordenadas, key=lambda x: x.data_reserva)}
 
-            # Crie uma lista para armazenar os eventos do calendário
             eventos = []
 
             for data, reservas_na_data in grupos_por_data.items():
                 eventos_na_data = []
                 for reserva in reservas_na_data:
+                    # Converte a data de reserva e a data de devolução para o fuso horário desejado
+                    data_reserva = reserva.data_reserva.astimezone(timezone.get_default_timezone())
+                    data_devolucao = reserva.data_devolucao.astimezone(timezone.get_default_timezone())
+
                     evento = {
                         'title': f"Reserva por {reserva.usuarios.nome} - {reserva.salas.nome_da_sala}",
-                        'start': reserva.data_reserva.isoformat(),
-                        'end': reserva.data_devolucao.strftime("%d/%m/%Y %H:%M" ),  # Formata a data de devolução corretamente
+                        'start': data_reserva.isoformat(),
+                        'end': data_devolucao.strftime("%d/%m/%Y %H:%M" ),  # Formata a data de devolução corretamente
                         'url': f'/calendario_reservas.html/{reserva.id}',  # Substitue com a URL correta para detalhes da reserva
                         'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M") if reserva.data_solicitacao else None,
                     }
                     eventos_na_data.append(evento)
                 eventos.append({'data': data.strftime("%d/%m/%Y"), 'eventos': eventos_na_data})
 
-            # Renderize o template com os eventos do calendário
             return render(request, 'calendario_reservas.html', {'eventos': eventos, 'usuario_logado2': usuario})
 
         except Usuario.DoesNotExist:
-            # Trata o caso em que o usuário não existe
             messages.error(request, 'Usuário não encontrado.')
             return render(request, 'error.html', {'message': 'Usuário não existe'})
     else:
-        # Redireciona para a página de login se não houver usuário na sessão
         messages.warning(request, 'Faça login para acessar o calendário de reservas.')
         return redirect('/auth/login/?status=2')
+
 
 
 # Função para exibir o calendário de reservas de materiais
@@ -155,10 +152,14 @@ def calendario_reservas_materiais(request):
             for data, reservas_na_data in grupos_por_data.items():
                 eventos_na_data = []
                 for reserva in reservas_na_data:
+                    # Converte a data de reserva e a data de devolução para o fuso horário desejado
+                    data_reserva = reserva.data_reserva.astimezone(timezone.get_default_timezone())
+                    data_devolucao = reserva.data_devolucao.astimezone(timezone.get_default_timezone())
+
                     evento_material = {
                         'title': f"Reserva de Material por {reserva.usuarios.nome} - {reserva.materiais.nome_do_material}",
-                        'start': reserva.data_reserva.isoformat(),
-                        'end': reserva.data_devolucao.strftime("%d/%m/%Y %H:%M"),
+                        'start': data_reserva.isoformat(),
+                        'end': data_devolucao.strftime("%d/%m/%Y %H:%M"),
                         'url': f'/calendario_reservas_materiais.html/{reserva.id}',
                         'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M" ) if reserva.data_solicitacao else None,
                         'tipo_reserva': 'Material',  # Indica que é uma reserva de material
