@@ -62,26 +62,21 @@
         <tbody>
             <!-- Loop através dos eventos -->
             {% for evento_materiais in eventos_materiais %}
-                <tr>
-                    <!-- Exibe a data de solicitação do primeiro evento na lista no formato brasileiro -->
-                    <td>{{ evento_materiais.eventos.0.data_solicitacao }}</td>
-                    <!-- Exibe a data do evento no formato brasileiro -->
-                    <td>{{ evento_materiais.data }}</td>
-                    <!-- Exibe a data de devolução do primeiro evento na lista no formato brasileiro -->
-                    <td>{{ evento_materiais.eventos.0.end }}</td>
-                    <td>
-                        <!-- Lista de eventos para a data específica -->
-                        <ul>
-                            <!-- Loop através dos eventos na data -->
-                            {% for evento_na_data in evento_materiais.eventos %}
-                                <li>
-                                    <!-- Exibe o título do evento e o nome do material -->
-                                    {{ evento_na_data.title }}  {{ evento_na_data.materiais.nome_do_material }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                </tr>
+                {% for evento_na_data in evento_materiais.eventos %}
+                    <tr>
+                        <!-- Exibe a data de solicitação do evento -->
+                        <td>{{ evento_na_data.data_solicitacao }}</td>
+                        <!-- Exibe a data de reserva do evento -->
+                        <td>{{ evento_na_data.start }}</td>
+                        <!-- Exibe a data de devolução do evento -->
+                        <td>{{ evento_na_data.end }}</td>
+                        <!-- Detalhes da reserva -->
+                        <td>
+                            <!-- Exibe o título do evento -->
+                            {{ evento_na_data.title }}
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>

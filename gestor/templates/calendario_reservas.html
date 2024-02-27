@@ -66,9 +66,9 @@
                 <tr>
                     <!-- Exibe a data de solicitação do primeiro evento na lista no formato brasileiro -->
                     <td>{{ evento.eventos.0.data_solicitacao }}</td>
-                    <!-- Exibe a data do evento no formato brasileiro -->
-                    <td>{{ evento.data }}</td>
-                    <!-- Exibe a data de devolução do primeiro evento na lista no formato brasileiro -->
+                    <!-- Exibe a data e hora da reserva do primeiro evento na lista no formato brasileiro -->
+                    <td>{{ evento.eventos.0.start }}</td>
+                    <!-- Exibe a data e hora da devolução do primeiro evento na lista no formato brasileiro -->
                     <td>{{ evento.eventos.0.end }}</td>
 
                     <td>
