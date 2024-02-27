@@ -109,13 +109,14 @@ def calendario_reservas(request):
                     # Converte a data de reserva e a data de devolução para o fuso horário desejado
                     data_reserva = reserva.data_reserva.astimezone(timezone.get_default_timezone())
                     data_devolucao = reserva.data_devolucao.astimezone(timezone.get_default_timezone())
+                    data_solicitacao = reserva.data_solicitacao.astimezone(timezone.get_default_timezone())
 
                     evento = {
                         'title': f"Reserva por {reserva.usuarios.nome} - {reserva.salas.nome_da_sala}",
-                        'start': data_reserva.isoformat(),
+                        'start': data_reserva.strftime("%d/%m/%Y %H:%M" ),
                         'end': data_devolucao.strftime("%d/%m/%Y %H:%M" ),  # Formata a data de devolução corretamente
                         'url': f'/calendario_reservas.html/{reserva.id}',  # Substitue com a URL correta para detalhes da reserva
-                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M") if reserva.data_solicitacao else None,
+                        'data_solicitacao': data_solicitacao.strftime("%d/%m/%Y %H:%M") if reserva.data_solicitacao else None,
                     }
                     eventos_na_data.append(evento)
                 eventos.append({'data': data.strftime("%d/%m/%Y"), 'eventos': eventos_na_data})
@@ -155,13 +156,15 @@ def calendario_reservas_materiais(request):
                     # Converte a data de reserva e a data de devolução para o fuso horário desejado
                     data_reserva = reserva.data_reserva.astimezone(timezone.get_default_timezone())
                     data_devolucao = reserva.data_devolucao.astimezone(timezone.get_default_timezone())
+                    data_solicitacao = reserva.data_solicitacao.astimezone(timezone.get_default_timezone())
+
 
                     evento_material = {
                         'title': f"Reserva de Material por {reserva.usuarios.nome} - {reserva.materiais.nome_do_material}",
-                        'start': data_reserva.isoformat(),
+                        'start': data_reserva.strftime("%d/%m/%Y %H:%M"),
                         'end': data_devolucao.strftime("%d/%m/%Y %H:%M"),
                         'url': f'/calendario_reservas_materiais.html/{reserva.id}',
-                        'data_solicitacao': reserva.data_solicitacao.strftime("%d/%m/%Y %H:%M" ) if reserva.data_solicitacao else None,
+                        'data_solicitacao': data_solicitacao.strftime("%d/%m/%Y %H:%M" ) if reserva.data_solicitacao else None,
                         'tipo_reserva': 'Material',  # Indica que é uma reserva de material
                     }
                     eventos_na_data.append(evento_material)
